@@ -1,3 +1,4 @@
+import { UpdateUserDto } from './dto/update-user.dto';
 
 import { LoggerService } from './../logger.service';
 import { Repository } from 'typeorm';
