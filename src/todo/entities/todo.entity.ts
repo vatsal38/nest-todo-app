@@ -9,6 +9,9 @@ export class Todo {
   @Column()
   title: string;
 
+  @Column('simple-array', { nullable: true })
+  tags: string[];
+
   @Column()
   date: string;
 

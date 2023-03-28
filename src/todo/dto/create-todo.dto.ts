@@ -5,4 +5,7 @@ export class CreateTodoDto {
   @ApiProperty()
   @IsString()
   title: string;
+
+  @ApiProperty()
+  tags: string[];
 }

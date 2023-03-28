@@ -16,6 +16,7 @@ export class TodoService {
   async create(createTodoDto: CreateTodoDto, userId: string) {
     let todo = new Todo();
     todo.title = createTodoDto.title;
+    todo.tags = createTodoDto.tags;
     todo.date = new Date().toLocaleString();
     todo.completed = false;
     todo.user = await this.userService.findUserById(userId);
