@@ -1,3 +1,5 @@
+import { AddressDto } from './../dto/address.dto';
+
 import { Todo } from 'src/todo/entities/todo.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -14,6 +16,9 @@ export class User {
 
   @Column()
   email: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  address: AddressDto;
 
   @Column()
   password: string;

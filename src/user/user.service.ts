@@ -1,5 +1,4 @@
-import { UpdateUserDto } from './dto/update-user.dto';
-
+import { AddressDto } from './dto/address.dto';
 import { LoggerService } from './../logger.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,6 +18,7 @@ export class UserService {
     let user = new User();
     user.email = createUserDto.email;
     user.password = createUserDto.password;
+    user.address = createUserDto.address;
     user.firstName = createUserDto.firstName;
     user.lastName = createUserDto.lastName;
     user.role = Constants.ROLES.USER_ROLE;
