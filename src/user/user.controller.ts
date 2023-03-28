@@ -1,4 +1,3 @@
-import { UpdateUserDto } from './dto/update-user.dto';
 import { RoleGuard } from './../auth/guard/role.guard';
 import {
   Controller,
