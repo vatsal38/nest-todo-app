@@ -40,14 +40,4 @@ export class UserController {
   remove(@Param('userId') id: string) {
     return this.userService.remove(id);
   }
-
-  @ApiSecurity('JWT-auth')
-  @Patch(':userId')
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
-  async updateUser(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.userService.update(id, updateUserDto);
-  }
 }

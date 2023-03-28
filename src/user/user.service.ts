@@ -1,4 +1,4 @@
-import { UpdateUserDto } from './dto/update-user.dto';
+
 import { LoggerService } from './../logger.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -43,9 +43,5 @@ export class UserService {
   remove(id: string) {
     this.loggerService.log(`Delete user`);
     return this.userRepository.delete(id);
-  }
-
-  update(id:string,updateUserDto: UpdateUserDto){
-    
   }
 }
