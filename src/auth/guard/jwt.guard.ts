@@ -1,4 +1,5 @@
-import { Constants } from 'src/utils/constants';
+import { Constants } from '../../utils/constants';
+
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 

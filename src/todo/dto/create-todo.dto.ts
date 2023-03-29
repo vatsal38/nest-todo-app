@@ -1,3 +1,4 @@
+import { Category } from './../entities/category.entity';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 import { IsString } from 'class-validator';
 
@@ -8,4 +9,7 @@ export class CreateTodoDto {
 
   @ApiProperty()
   tags: string[];
+
+  @ApiProperty()
+  categoryId: string;
 }

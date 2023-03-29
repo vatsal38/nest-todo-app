@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { Repository } from 'typeorm';
-import { LoggerService } from 'src/logger.service';
+import { LoggerService } from '../logger.service';
 
 @Injectable()
 export class TodoService {
@@ -19,6 +19,7 @@ export class TodoService {
     todo.tags = createTodoDto.tags;
     todo.date = new Date().toLocaleString();
     todo.completed = false;
+    // todo.category = createTodoDto.categoryId;
     todo.user = await this.userService.findUserById(userId);
     this.loggerService.log(`Todo created`);
     return this.todoRepository.save(todo);
@@ -27,7 +28,7 @@ export class TodoService {
   findAllTodoByUserNotCompleted(userId: string) {
     this.loggerService.log(`Get not completed todo`);
     return this.todoRepository.find({
-      relations: ['user'],
+      relations: ['user', 'category'],
       where: { user: { id: userId }, completed: false },
     });
   }

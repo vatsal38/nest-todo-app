@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger/dist';
 import { Controller, Post, UseGuards, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Body } from '@nestjs/common/decorators';
 
 @Controller('auth')

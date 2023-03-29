@@ -1,9 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
+import { Todo } from './todo.entity';
 
-@Entity()
-export class Todo {
+@Entity({
+  schema: 'public',
+  name: 'category',
+})
+export class Category extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @OneToMany(() => Todo, (todo) => todo.category)
+  id: Todo[];
 
   @Column()
   categoryTitle: string;

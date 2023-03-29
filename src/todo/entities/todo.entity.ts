@@ -1,8 +1,16 @@
-import { User } from 'src/user/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Category } from './category.entity';
+import { User } from '../../user/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  BaseEntity,
+} from 'typeorm';
 
 @Entity()
-export class Todo {
+export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -11,6 +19,13 @@ export class Todo {
 
   @Column('simple-array', { nullable: true })
   tags: string[];
+
+  @ManyToOne(() => Category, (category) => category.id, {
+    persistence: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'id' })
+  category: Category;
 
   @Column()
   date: string;

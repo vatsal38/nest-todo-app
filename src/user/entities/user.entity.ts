@@ -1,10 +1,10 @@
 import { AddressDto } from './../dto/address.dto';
 
-import { Todo } from 'src/todo/entities/todo.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Todo } from '../../todo/entities/todo.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

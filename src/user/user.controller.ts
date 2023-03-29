@@ -12,7 +12,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
-import { Constants } from 'src/utils/constants';
+import { Constants } from '../utils/constants';
 import { ApiTags } from '@nestjs/swagger/dist';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
 
