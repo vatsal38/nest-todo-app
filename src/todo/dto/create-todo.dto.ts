@@ -1,4 +1,3 @@
-import { Category } from './../entities/category.entity';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 import { IsString } from 'class-validator';
 

@@ -24,7 +24,7 @@ export class Todo extends BaseEntity {
     persistence: true,
     eager: true,
   })
-  @JoinColumn({ name: 'id' })
+  @JoinColumn({ name: 'category_id' })
   category: Category;
 
   @Column()

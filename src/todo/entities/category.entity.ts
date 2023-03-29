@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
 import { Todo } from './todo.entity';
 
 @Entity({
@@ -7,12 +13,14 @@ import { Todo } from './todo.entity';
 })
 export class Category extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  @OneToMany(() => Todo, (todo) => todo.category)
-  id: Todo[];
+  id: string;
 
   @Column()
   categoryTitle: string;
 
   @Column()
   categoryName: string;
+
+  @OneToMany(() => Todo, (todo) => todo.category)
+  todos: Todo[];
 }

@@ -1,3 +1,4 @@
+import { Category } from './entities/category.entity';
 import { UserService } from './../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
@@ -10,19 +11,26 @@ import { LoggerService } from '../logger.service';
 export class TodoService {
   constructor(
     @InjectRepository(Todo) private readonly todoRepository: Repository<Todo>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
     private userService: UserService,
     private readonly loggerService: LoggerService,
   ) {}
   async create(createTodoDto: CreateTodoDto, userId: string) {
+    const category = await this.categoryRepository.findOne({
+      where: { id: createTodoDto.categoryId },
+    });
+
+    if (!category) return false;
     let todo = new Todo();
     todo.title = createTodoDto.title;
     todo.tags = createTodoDto.tags;
     todo.date = new Date().toLocaleString();
     todo.completed = false;
-    // todo.category = createTodoDto.categoryId;
+    todo.category = category;
     todo.user = await this.userService.findUserById(userId);
     this.loggerService.log(`Todo created`);
-    return this.todoRepository.save(todo);
+    return await this.todoRepository.save(todo);
   }
 
   findAllTodoByUserNotCompleted(userId: string) {
