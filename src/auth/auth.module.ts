@@ -1,4 +1,3 @@
-import { TodoModule } from './../todo/todo.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';

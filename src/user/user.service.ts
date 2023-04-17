@@ -1,4 +1,3 @@
-import { AddressDto } from './dto/address.dto';
 import { LoggerService } from './../logger.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

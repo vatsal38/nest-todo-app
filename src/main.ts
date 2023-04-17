@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalGuards(new JwtAuthGuard());
 
   const option = new DocumentBuilder()
-    .setTitle('ToDoApp')
+    .setTitle('Todo List App')
     .setDescription('Todo app using Nest Js')
     .setVersion('1.0')
     .addBearerAuth(

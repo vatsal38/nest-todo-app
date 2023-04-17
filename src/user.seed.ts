@@ -14,7 +14,7 @@ export default async function seedUsers(connection: Connection) {
     },
     {
       firstName: 'seed',
-      lastName: 'abc',
+      lastName: 'seed',
       email: 'seed@seed.com',
       password: 'seed',
       address: null,
@@ -25,6 +25,8 @@ export default async function seedUsers(connection: Connection) {
   const existingEmails = await connection.getRepository(User).find({
     select: ['email'],
   });
+
+  // console.log("existingEmails",existingEmails)
 
   const uniqueUsers = users.filter((user) => {
     return !existingEmails.some((emailObj) => emailObj.email === user.email);
