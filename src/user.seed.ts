@@ -22,5 +22,13 @@ export default async function seedUsers(connection: Connection) {
     },
   ];
 
-  await connection.getRepository(User).save(users);
+  const existingEmails = await connection.getRepository(User).find({
+    select: ['email'],
+  });
+
+  const uniqueUsers = users.filter((user) => {
+    return !existingEmails.some((emailObj) => emailObj.email === user.email);
+  });
+
+  await connection.getRepository(User).save(uniqueUsers);
 }
