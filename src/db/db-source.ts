@@ -12,7 +12,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: [User, Todo, Category],
   migrations: [migration1680086287180, migration1680095629089],
   synchronize: false,
-  logging: true,
+  logging: false,
 };
 const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;
