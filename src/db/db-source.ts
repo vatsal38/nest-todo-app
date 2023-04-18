@@ -1,17 +1,16 @@
-import { migration1680095629089 } from './../migration/1680095629089-migration';
-import { migration1680086287180 } from './../migration/1680086287180-migration';
 import { Category } from './../todo/entities/category.entity';
 import { Todo } from '../todo/entities/todo.entity';
 import { User } from '../user/entities/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { migration1681803420910 } from './../migration/1681803420910-migration';
+import { migration1681808966961 } from 'src/migration/1681808966961-migration';
+
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   database: 'todo_db',
   username: 'postgres',
   password: 'Vatsal@0308',
   entities: [User, Todo, Category],
-  migrations: [migration1680086287180, migration1680095629089, migration1681803420910],
+  migrations: [migration1681808966961],
   synchronize: false,
   logging: false,
 };
