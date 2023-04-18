@@ -5,7 +5,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn,
   BaseEntity,
 } from 'typeorm';
 
@@ -20,11 +19,8 @@ export class Todo extends BaseEntity {
   @Column('simple-array', { nullable: true })
   tags: string[];
 
-  @ManyToOne(() => Category, (category) => category.id, {
-    persistence: true,
-    eager: true,
-  })
-  @JoinColumn({ name: 'category_id' })
+  @ManyToOne(() => Category, (category) => category.todos)
+  // @JoinColumn({ name: 'category_id' })
   category: Category;
 
   @Column()

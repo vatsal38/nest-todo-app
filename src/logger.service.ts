@@ -6,10 +6,7 @@ export class LoggerService {
   private logger: any;
 
   constructor() {
-    const logFormat = format.combine(
-      format.timestamp(),
-      format.json(),
-    );
+    const logFormat = format.combine(format.timestamp(), format.json());
 
     const transport = new transports.File({
       filename: 'logs/app.log',

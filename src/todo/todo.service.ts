@@ -44,7 +44,7 @@ export class TodoService {
   findAllTodoByUserCompleted(userId: string) {
     this.loggerService.log(`Get completed todo`);
     return this.todoRepository.find({
-      relations: ['user'],
+      relations: ['user', 'category'],
       where: { user: { id: userId }, completed: true },
     });
   }
