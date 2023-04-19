@@ -33,20 +33,61 @@ export class TodoService {
     return await this.todoRepository.save(todo);
   }
 
-  findAllTodoByUserNotCompleted(userId: string) {
+  async findAllTodoByUserNotCompleted(userId: string) {
     this.loggerService.log(`Get not completed todo`);
-    return this.todoRepository.find({
-      relations: ['user', 'category'],
-      where: { user: { id: userId }, completed: false },
-    });
+    // return this.todoRepository.find({
+    //   relations: ['user', 'category'],
+    //   where: { user: { id: userId }, completed: false },
+    // });
+    return await this.todoRepository
+      .createQueryBuilder('todo')
+      // .leftJoin('todo.user', 'user')
+      // .leftJoin('todo.category', 'category')
+      // .where('todo.user.id = :userId', { userId })
+      // .andWhere('todo.completed = :completed', { completed: false })
+      // .select([
+      //   'todo.id',
+      //   'todo.title',
+      //   'todo.tags',
+      //   'todo.category',
+      //   'user.id',
+      //   'category.id',
+      // ])
+
+      .leftJoinAndSelect('todo.user', 'user')
+      .leftJoinAndSelect('todo.category', 'category')
+      .where('todo.user.id = :userId', { userId })
+      .andWhere('todo.completed = :completed', { completed: false })
+      .getMany();
   }
 
-  findAllTodoByUserCompleted(userId: string) {
+  async findAllTodoByUserCompleted(userId: string) {
     this.loggerService.log(`Get completed todo`);
-    return this.todoRepository.find({
-      relations: ['user', 'category'],
-      where: { user: { id: userId }, completed: true },
-    });
+    // return this.todoRepository.find({
+    //   relations: ['user', 'category'],
+    //   where: { user: { id: userId }, completed: true },
+    // });
+
+    return await this.todoRepository
+      .createQueryBuilder('todo')
+      // .leftJoin('todo.user', 'user')
+      // .leftJoin('todo.category', 'category')
+      // .where('todo.user.id = :userId', { userId })
+      // .andWhere('todo.completed = :completed', { completed: true })
+      // .select([
+      //   'todo.id',
+      //   'todo.title',
+      //   'todo.tags',
+      //   'todo.category',
+      //   'user.id',
+      //   'category.id',
+      // ])
+
+      .leftJoinAndSelect('todo.user', 'user')
+      .leftJoinAndSelect('todo.category', 'category')
+      .where('todo.user.id = :userId', { userId })
+      .andWhere('todo.completed = :completed', { completed: true })
+      .getMany();
   }
 
   update(todoId: string) {
