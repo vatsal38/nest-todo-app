@@ -1,7 +1,3 @@
-import { migration1681808966961 } from 'src/migration/1681808966961-migration';
-import { Category } from './../../todo/entities/category.entity';
-import { Todo } from './../../todo/entities/todo.entity';
-import { User } from './../../user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { env } from '../../env';
 
@@ -19,8 +15,8 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
     username: env.db.username,
     password: env.db.password,
     database: env.db.database,
-    entities: [User, Todo, Category],
-    migrations: [migration1681808966961],
+    entities: [__dirname + './../../**/entities/*.entity.ts'],
+    migrations: [__dirname + './../../migration/*.ts'],
     synchronize: false,
     dropSchema: false,
   }),
