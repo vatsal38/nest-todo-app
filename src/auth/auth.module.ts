@@ -1,4 +1,3 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';

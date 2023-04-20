@@ -8,8 +8,8 @@ export default new DataSource({
   username: env.db.username,
   password: env.db.password,
   database: env.db.database,
-  entities: [__dirname + './../../**/entities/*.entity.ts'],
-  migrations: [__dirname + './../../migration/*.ts'],
+  entities: [__dirname + './../../**/entities/*.entity.{ts,js}'],
+  migrations: [__dirname + './../../migration/*.{ts,js}'],
   synchronize: false,
   dropSchema: false,
 });
