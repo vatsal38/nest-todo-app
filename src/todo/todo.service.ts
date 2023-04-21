@@ -6,6 +6,7 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { Repository } from 'typeorm';
 import { LoggerService } from '../logger.service';
+import { PaginationDto } from './dto/todo-pagination.dto';
 
 @Injectable()
 export class TodoService {
@@ -33,13 +34,18 @@ export class TodoService {
     return await this.todoRepository.save(todo);
   }
 
-  async findAllTodoByUserNotCompleted(userId: string) {
+  async findAllTodoByUserNotCompleted(
+    userId: string,
+    paginationDto: PaginationDto,
+  ) {
     this.loggerService.log(`Get not completed todo`);
+    const { page, perPage } = paginationDto;
+    const skippedItems = (page - 1) * perPage;
     // return this.todoRepository.find({
     //   relations: ['user', 'category'],
     //   where: { user: { id: userId }, completed: false },
     // });
-    return await this.todoRepository
+    const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
       // .leftJoin('todo.user', 'user')
       // .leftJoin('todo.category', 'category')
@@ -58,7 +64,17 @@ export class TodoService {
       .leftJoinAndSelect('todo.category', 'category')
       .where('todo.user.id = :userId', { userId })
       .andWhere('todo.completed = :completed', { completed: false })
-      .getMany();
+      .skip(skippedItems)
+      .take(perPage)
+      .getManyAndCount();
+
+    return {
+      items: todos,
+      totalItems: count,
+      currentPage: page,
+      perPage: perPage,
+      totalPages: Math.ceil(count / perPage),
+    };
   }
 
   async findAllTodoByUserCompleted(userId: string) {
@@ -82,7 +98,6 @@ export class TodoService {
       //   'user.id',
       //   'category.id',
       // ])
-
       .leftJoinAndSelect('todo.user', 'user')
       .leftJoinAndSelect('todo.category', 'category')
       .where('todo.user.id = :userId', { userId })

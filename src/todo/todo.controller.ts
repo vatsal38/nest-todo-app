@@ -7,11 +7,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
+import { PaginationDto } from './dto/todo-pagination.dto';
 
 @Controller('todo')
 @ApiTags('Todos')
@@ -28,8 +30,14 @@ export class TodoController {
   }
 
   @Get('/:userId/not-completed-todo')
-  findAllTodoByUserNotCompleted(@Param('userId') userId: string) {
-    return this.todoService.findAllTodoByUserNotCompleted(userId);
+  findAllTodoByUserNotCompleted(
+    @Param('userId') userId: string,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    return this.todoService.findAllTodoByUserNotCompleted(
+      userId,
+      paginationDto,
+    );
   }
   @Get('/:userId/completed-todo')
   findAllTodoByUserCompleted(@Param('userId') userId: string) {
