@@ -13,7 +13,7 @@ export class AuthController {
 
   @Post('/login')
   @UseGuards(AuthGuard('local'))
-  login(@Req() req , @Body() loginDto:LoginDto) {
+  login(@Req() req, @Body() loginDto: LoginDto) {
     const user: User = req.user;
     const payload = {
       userId: user.id,
@@ -22,6 +22,8 @@ export class AuthController {
       email: user.email,
       role: user.role,
     };
+
+    console.log('payload', payload);
     return { token: this.jwtService.sign(payload) };
   }
 }
