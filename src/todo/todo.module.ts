@@ -1,3 +1,4 @@
+import { PermissionsGuard } from '../auth/guard/permission.guard';
 import { LoggerService } from './../logger.service';
 import { UserModule } from './../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +11,6 @@ import { Category } from './entities/category.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Todo, Category]), UserModule],
   controllers: [TodoController],
-  providers: [TodoService, LoggerService],
+  providers: [TodoService, LoggerService, PermissionsGuard],
 })
 export class TodoModule {}

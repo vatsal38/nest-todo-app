@@ -1,3 +1,6 @@
+import { JwtAuthGuard } from './../auth/guard/jwt.guard';
+import { PermissionsGuard } from '../auth/guard/permission.guard';
+import { Permissions } from './../permission/decorators/permission.decorator';
 import { ApiTags } from '@nestjs/swagger/dist';
 import {
   Controller,
@@ -8,6 +11,7 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -30,6 +34,8 @@ export class TodoController {
   }
 
   @Get('/:userId/not-completed-todo')
+  @Permissions('u-read')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   findAllTodoByUserNotCompleted(
     @Param('userId') userId: string,
     @Query() paginationDto: PaginationDto,
@@ -39,7 +45,10 @@ export class TodoController {
       paginationDto,
     );
   }
+
   @Get('/:userId/completed-todo')
+  @Permissions('u-read')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   findAllTodoByUserCompleted(
     @Param('userId') userId: string,
     @Query() paginationDto: PaginationDto,
@@ -48,11 +57,14 @@ export class TodoController {
   }
 
   @Patch(':todoId')
+  @Permissions('u-read', 'u-write')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   update(@Param('todoId') id: string) {
     return this.todoService.update(id);
   }
 
   @Delete(':todoId')
+  @Permissions('u-read', 'u-write')
   remove(@Param('todoId') id: string) {
     return this.todoService.remove(id);
   }

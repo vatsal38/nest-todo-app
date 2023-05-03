@@ -1,3 +1,4 @@
+import { PermissionsGuard } from './guard/permission.guard';
 import { AuthService } from './auth.service';
 import { UserRepository } from './../user/user.repository';
 import { UserModule } from './../user/user.module';
@@ -26,6 +27,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
   controllers: [AuthController],
-  providers: [LocalStrategy, JwtStrategy, AuthService],
+  providers: [LocalStrategy, JwtStrategy, AuthService, PermissionsGuard],
 })
 export class AuthModule {}
