@@ -1,32 +1,44 @@
 import { Connection } from 'typeorm';
 import { User } from './user/entities/user.entity';
 import { Constants } from './utils/constants';
-export default async function seedUsers(connection: Connection) {
-  const users = [
-    {
-      firstName: 'abc',
-      lastName: 'abc',
-      email: 'abc@abc.com',
-      password: 'abc',
-      address: null,
-      role: Constants.ROLES.ADMIN_ROLE,
-      Permissions: ['u-read', 'u-write', 'a-read', 'a-write'],
-    },
-    {
-      firstName: 'seed',
-      lastName: 'seed',
-      email: 'seed@seed.com',
-      password: 'seed',
-      address: null,
-      role: Constants.ROLES.ADMIN_ROLE,
-      Permissions: ['u-read', 'u-write', 'a-read', 'a-write'],
-    },
-  ];
-  const existingEmails = await connection.getRepository(User).find({
-    select: ['email'],
-  });
-  const uniqueUsers = users.filter((user) => {
-    return !existingEmails.some((emailObj) => emailObj.email === user.email);
-  });
-  await connection.getRepository(User).save(uniqueUsers);
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { PermissionService } from './permission/permission.service';
+@Injectable()
+export class UserSeed implements OnModuleInit {
+  constructor(
+    private readonly connection: Connection,
+    private permissionService: PermissionService,
+  ) {}
+
+  async onModuleInit() {
+    const allPermissions = await this.permissionService.allPermission();
+
+    const users = [
+      {
+        firstName: 'abc',
+        lastName: 'abc',
+        email: 'abc@abc.com',
+        password: 'abc',
+        address: null,
+        role: Constants.ROLES.ADMIN_ROLE,
+        permissions: allPermissions,
+      },
+      {
+        firstName: 'seed',
+        lastName: 'seed',
+        email: 'seed@seed.com',
+        password: 'seed',
+        address: null,
+        role: Constants.ROLES.ADMIN_ROLE,
+        permissions: allPermissions,
+      },
+    ];
+    const existingEmails = await this.connection.getRepository(User).find({
+      select: ['email'],
+    });
+    const uniqueUsers = users.filter((user) => {
+      return !existingEmails.some((emailObj) => emailObj.email === user.email);
+    });
+    await this.connection.getRepository(User).save(uniqueUsers);
+  }
 }
