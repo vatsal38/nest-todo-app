@@ -15,10 +15,10 @@ export class UserSeed implements OnModuleInit {
 
     const users = [
       {
-        firstName: 'abc',
-        lastName: 'abc',
-        email: 'abc@abc.com',
-        password: 'abc',
+        firstName: 'admin',
+        lastName: 'admin',
+        email: 'admin@admin.com',
+        password: 'admin',
         address: null,
         role: Constants.ROLES.ADMIN_ROLE,
         permissions: allPermissions,
