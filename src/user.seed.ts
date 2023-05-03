@@ -10,6 +10,7 @@ export default async function seedUsers(connection: Connection) {
       password: 'abc',
       address: null,
       role: Constants.ROLES.ADMIN_ROLE,
+      Permissions: ['u-read', 'u-write', 'a-read', 'a-write'],
     },
     {
       firstName: 'seed',
@@ -18,6 +19,7 @@ export default async function seedUsers(connection: Connection) {
       password: 'seed',
       address: null,
       role: Constants.ROLES.ADMIN_ROLE,
+      Permissions: ['u-read', 'u-write', 'a-read', 'a-write'],
     },
   ];
   const existingEmails = await connection.getRepository(User).find({

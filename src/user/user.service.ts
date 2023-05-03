@@ -1,47 +1,49 @@
 import { LoggerService } from './../logger.service';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserRepository } from './user.repository';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Constants } from '../utils/constants';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(UserRepository)
+    private readonly userRepository: UserRepository,
     private readonly loggerService: LoggerService,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    let user = new User();
-    user.email = createUserDto.email;
-    user.password = createUserDto.password;
-    user.address = createUserDto.address;
-    user.firstName = createUserDto.firstName;
-    user.lastName = createUserDto.lastName;
-    user.role = Constants.ROLES.USER_ROLE;
-    this.loggerService.log(`User created`);
-    return this.userRepository.save(user);
+  async create(createUserDto: CreateUserDto) {
+    return await this.userRepository.createUser(createUserDto);
   }
 
-  findUserById(id: string) {
-    this.loggerService.log(`Get user by id`);
-    return this.userRepository.findOneOrFail({ where: { id: id } });
-  }
-
-  findAll() {
+  async findAll() {
     this.loggerService.log(`Get all user`);
-    return this.userRepository.find();
+    return await this.userRepository.findAll();
   }
 
-  findUserByEmail(email: string) {
+  async findUserById(id: string) {
+    this.loggerService.log(`Get user by id`);
+    return await this.userRepository.findUserById(id);
+  }
+
+  async findUserByEmail(email: string) {
     this.loggerService.log(`Get user by email`);
-    return this.userRepository.findOne({ where: { email: email } });
+    return await this.userRepository.findUserByEmail(email);
   }
 
-  remove(id: string) {
+  async findByResetPasswordToken(resetPasswordToken: string): Promise<User> {
+    this.loggerService.log(`Get reset password token`);
+    return this.userRepository.findToken(resetPasswordToken);
+  }
+
+  async remove(id: string) {
     this.loggerService.log(`Delete user`);
-    return this.userRepository.delete(id);
+    return await this.userRepository.removeUser(id);
+  }
+
+  async updateUser(id: string, userData: UpdateUserDto): Promise<User> {
+    this.loggerService.log(`Update user`);
+    return await this.userRepository.updateUser(id, userData);
   }
 }

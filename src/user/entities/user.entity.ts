@@ -1,7 +1,13 @@
 import { AddressDto } from './../dto/address.dto';
 
 import { Todo } from '../../todo/entities/todo.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -23,8 +29,20 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @Column({ default: false })
+  isVerified: boolean;
+
+  @Column({ nullable: true })
+  resetPasswordToken: string;
+
+  @Column({ nullable: true })
+  resetPasswordExpires: Date;
+
   @Column()
   role: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  permissions: string[];
 
   @OneToMany(() => Todo, (todo) => todo.user)
   todos: Todo[];

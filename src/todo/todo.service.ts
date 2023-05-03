@@ -21,11 +21,11 @@ export class TodoService {
     const category = await this.categoryRepository.findOne({
       where: { id: createTodoDto.categoryId },
     });
-
+    const { title, tags } = createTodoDto;
     if (!category) return false;
     let todo = new Todo();
-    todo.title = createTodoDto.title;
-    todo.tags = createTodoDto.tags;
+    todo.title = title;
+    todo.tags = tags;
     todo.date = new Date().toLocaleString();
     todo.completed = false;
     todo.category = category;
@@ -41,25 +41,8 @@ export class TodoService {
     this.loggerService.log(`Get not completed todo`);
     const { page, perPage } = paginationDto;
     const skippedItems = (page - 1) * perPage;
-    // return this.todoRepository.find({
-    //   relations: ['user', 'category'],
-    //   where: { user: { id: userId }, completed: false },
-    // });
     const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
-      // .leftJoin('todo.user', 'user')
-      // .leftJoin('todo.category', 'category')
-      // .where('todo.user.id = :userId', { userId })
-      // .andWhere('todo.completed = :completed', { completed: false })
-      // .select([
-      //   'todo.id',
-      //   'todo.title',
-      //   'todo.tags',
-      //   'todo.category',
-      //   'user.id',
-      //   'category.id',
-      // ])
-
       .leftJoinAndSelect('todo.user', 'user')
       .leftJoinAndSelect('todo.category', 'category')
       .where('todo.user.id = :userId', { userId })
@@ -77,32 +60,30 @@ export class TodoService {
     };
   }
 
-  async findAllTodoByUserCompleted(userId: string) {
+  async findAllTodoByUserCompleted(
+    userId: string,
+    paginationDto: PaginationDto,
+  ) {
     this.loggerService.log(`Get completed todo`);
-    // return this.todoRepository.find({
-    //   relations: ['user', 'category'],
-    //   where: { user: { id: userId }, completed: true },
-    // });
-
-    return await this.todoRepository
+    const { page, perPage } = paginationDto;
+    const skippedItems = (page - 1) * perPage;
+    const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
-      // .leftJoin('todo.user', 'user')
-      // .leftJoin('todo.category', 'category')
-      // .where('todo.user.id = :userId', { userId })
-      // .andWhere('todo.completed = :completed', { completed: true })
-      // .select([
-      //   'todo.id',
-      //   'todo.title',
-      //   'todo.tags',
-      //   'todo.category',
-      //   'user.id',
-      //   'category.id',
-      // ])
       .leftJoinAndSelect('todo.user', 'user')
       .leftJoinAndSelect('todo.category', 'category')
       .where('todo.user.id = :userId', { userId })
       .andWhere('todo.completed = :completed', { completed: true })
-      .getMany();
+      .skip(skippedItems)
+      .take(perPage)
+      .getManyAndCount();
+
+    return {
+      items: todos,
+      totalItems: count,
+      currentPage: page,
+      perPage: perPage,
+      totalPages: Math.ceil(count / perPage),
+    };
   }
 
   update(todoId: string) {

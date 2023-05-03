@@ -40,8 +40,11 @@ export class TodoController {
     );
   }
   @Get('/:userId/completed-todo')
-  findAllTodoByUserCompleted(@Param('userId') userId: string) {
-    return this.todoService.findAllTodoByUserCompleted(userId);
+  findAllTodoByUserCompleted(
+    @Param('userId') userId: string,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    return this.todoService.findAllTodoByUserCompleted(userId, paginationDto);
   }
 
   @Patch(':todoId')

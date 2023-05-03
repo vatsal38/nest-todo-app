@@ -6,8 +6,6 @@ import { SwaggerModule } from '@nestjs/swagger/dist';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalGuards(new JwtAuthGuard());
-
   const option = new DocumentBuilder()
     .setTitle('Todo List App')
     .setDescription('Todo app using Nest Js')

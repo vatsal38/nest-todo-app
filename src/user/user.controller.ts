@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/guard/jwt.guard';
 import { RoleGuard } from './../auth/guard/role.guard';
 import {
   Controller,
@@ -7,13 +8,15 @@ import {
   Param,
   Delete,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
-import { Constants } from '../utils/constants';
 import { ApiTags } from '@nestjs/swagger/dist';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 @ApiTags('Users')
@@ -27,15 +30,32 @@ export class UserController {
 
   @ApiSecurity('JWT-auth')
   @Get()
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
+  @UseGuards(JwtAuthGuard, RoleGuard)
   findAll() {
     return this.userService.findAll();
   }
 
   @ApiSecurity('JWT-auth')
-  @Delete(':userId')
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
-  remove(@Param('userId') id: string) {
+  @Get(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  findById(@Param('id') id: string) {
+    return this.userService.findUserById(id);
+  }
+
+  @ApiSecurity('JWT-auth')
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  async updateUser(
+    @Param('id') id: string,
+    @Body() userData: UpdateUserDto,
+  ): Promise<User> {
+    return await this.userService.updateUser(id, userData);
+  }
+
+  @ApiSecurity('JWT-auth')
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
 }

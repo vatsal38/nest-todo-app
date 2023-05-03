@@ -20,7 +20,6 @@ export class Todo extends BaseEntity {
   tags: string[];
 
   @ManyToOne(() => Category, (category) => category.todos)
-  // @JoinColumn({ name: 'category_id' })
   category: Category;
 
   @Column()
