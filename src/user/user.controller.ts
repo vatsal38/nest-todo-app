@@ -1,3 +1,5 @@
+import { PermissionsGuard } from './../auth/guard/permission.guard';
+import { Permissions } from './../permission/decorators/permission.decorator';
 import { JwtAuthGuard } from './../auth/guard/jwt.guard';
 import { RoleGuard } from './../auth/guard/role.guard';
 import {
@@ -30,21 +32,24 @@ export class UserController {
 
   @ApiSecurity('JWT-auth')
   @Get()
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Permissions('a-read')
+  @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   findAll() {
     return this.userService.findAll();
   }
 
   @ApiSecurity('JWT-auth')
   @Get(':id')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Permissions('a-read')
+  @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   findById(@Param('id') id: string) {
     return this.userService.findUserById(id);
   }
 
   @ApiSecurity('JWT-auth')
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Patch(':id/change-permission')
+  @Permissions('a-read', 'a-write')
+  @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   async updateUser(
     @Param('id') id: string,
     @Body() userData: UpdateUserDto,
@@ -54,7 +59,8 @@ export class UserController {
 
   @ApiSecurity('JWT-auth')
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Permissions('a-read', 'a-write')
+  @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }

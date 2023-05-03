@@ -55,19 +55,11 @@ export class UserRepository {
       return null;
     }
     const {
-      email,
-      password,
-      firstName,
-      lastName,
       isVerified,
       resetPasswordExpires,
       resetPasswordToken,
       updatePermission,
     } = userData;
-    user.email = email;
-    user.password = password;
-    user.firstName = firstName;
-    user.lastName = lastName;
     user.isVerified = isVerified;
     user.resetPasswordExpires = resetPasswordExpires;
     user.resetPasswordToken = resetPasswordToken;

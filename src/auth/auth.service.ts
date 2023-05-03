@@ -58,6 +58,7 @@ export class AuthService {
     const user = await this.userService.findByResetPasswordToken(
       resetPasswordToken,
     );
+    console.log(user);
     if (!user) {
       throw new Error('Invalid or expired token');
     }
@@ -70,6 +71,6 @@ export class AuthService {
     user.resetPasswordExpires = null;
     user.isVerified = false;
     await user.save();
-    return 'Password is changed';
+    return { password: 'Password is changed' };
   }
 }

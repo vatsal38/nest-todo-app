@@ -26,6 +26,8 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post(':userId')
+  @Permissions('u-read', 'u-write')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   create(
     @Body(ValidationPipe) createTodoDto: CreateTodoDto,
     @Param('userId') userId: string,
