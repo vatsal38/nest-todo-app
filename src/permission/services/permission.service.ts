@@ -1,6 +1,6 @@
-import { LoggerService } from './../logger.service';
+import { LoggerService } from '../../utils/logger/logger.service';
 import { Inject, Injectable } from '@nestjs/common';
-import { PermissionRepository } from './permission.repository';
+import { PermissionRepository } from '../repository/permission.repository';
 
 @Injectable()
 export class PermissionService {

@@ -1,11 +1,11 @@
-import { PermissionRepository } from './../permission/permission.repository';
+import { PermissionRepository } from '../../permission/repository/permission.repository';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from '../dto/create-user.dto';
 import { Constants } from 'src/utils/constants';
 import { BadRequestException, ConflictException, Inject } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 import { hash } from 'bcrypt';
 
 export class UserRepository {

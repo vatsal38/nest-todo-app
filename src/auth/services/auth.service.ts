@@ -1,5 +1,5 @@
-import { LoggerService } from './../logger.service';
-import { UserService } from './../user/user.service';
+import { LoggerService } from '../../utils/logger/logger.service';
+import { UserService } from '../../user/services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import {
   Injectable,
@@ -7,9 +7,9 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { LoginDto } from '../dto/login.dto';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { compare } from 'bcrypt';
 import { hash } from 'bcrypt';
 @Injectable()

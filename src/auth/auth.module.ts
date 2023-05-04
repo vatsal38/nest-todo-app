@@ -1,6 +1,7 @@
+import { LoggerService } from '../utils/logger/logger.service';
 import { PermissionsGuard } from './guard/permission.guard';
-import { AuthService } from './auth.service';
-import { UserRepository } from './../user/user.repository';
+import { AuthService } from './services/auth.service';
+import { UserRepository } from '../user/repository/user.repository';
 import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
@@ -27,6 +28,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
   controllers: [AuthController],
-  providers: [LocalStrategy, JwtStrategy, AuthService, PermissionsGuard],
+  providers: [
+    LocalStrategy,
+    JwtStrategy,
+    AuthService,
+    PermissionsGuard,
+    LoggerService,
+  ],
 })
 export class AuthModule {}

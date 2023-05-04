@@ -5,7 +5,7 @@ import {
   Param,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';

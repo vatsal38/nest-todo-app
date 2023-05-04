@@ -1,14 +1,14 @@
-import { PermissionService } from './../permission/permission.service';
-import { UserSeed } from './../user.seed';
-import { PermissionRepository } from './../permission/permission.repository';
+import { PermissionService } from '../permission/services/permission.service';
+import { UserSeed } from './seed-data/user.seed';
+import { PermissionRepository } from '../permission/repository/permission.repository';
 import { Permission } from './../permission/entities/permission.entity';
-import { LoggerService } from './../logger.service';
+import { LoggerService } from '../utils/logger/logger.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
-import { UserRepository } from './user.repository';
+import { UserRepository } from './repository/user.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Permission])],
   controllers: [UserController],

@@ -1,8 +1,8 @@
 import { Connection } from 'typeorm';
-import { User } from './user/entities/user.entity';
-import { Constants } from './utils/constants';
+import { User } from '../entities/user.entity';
+import { Constants } from '../../utils/constants';
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PermissionService } from './permission/permission.service';
+import { PermissionService } from '../../permission/services/permission.service';
 @Injectable()
 export class UserSeed implements OnModuleInit {
   constructor(

@@ -1,12 +1,12 @@
-import { Category } from './entities/category.entity';
-import { UserService } from './../user/user.service';
+import { Category } from '../entities/category.entity';
+import { UserService } from '../../user/services/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { Todo } from './entities/todo.entity';
+import { CreateTodoDto } from '../dto/create-todo.dto';
+import { Todo } from '../entities/todo.entity';
 import { Repository } from 'typeorm';
-import { LoggerService } from '../logger.service';
-import { PaginationDto } from './dto/todo-pagination.dto';
+import { LoggerService } from '../../utils/logger/logger.service';
+import { PaginationDto } from '../dto/todo-pagination.dto';
 
 @Injectable()
 export class TodoService {

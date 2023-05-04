@@ -1,6 +1,6 @@
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Permission } from './entities/permission.entity';
+import { Permission } from '../entities/permission.entity';
 
 export class PermissionRepository {
   constructor(

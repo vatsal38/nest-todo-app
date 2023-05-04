@@ -13,7 +13,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { TodoService } from './todo.service';
+import { TodoService } from './services/todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
