@@ -43,7 +43,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const payload = { id: user.id };
+    const payload = { email: user.email };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
     const expirationTime = new Date(Date.now() + 3600 * 1000);
     user.resetPasswordToken = token;
