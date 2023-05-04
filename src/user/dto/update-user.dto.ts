@@ -5,9 +5,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
-  isVerified: boolean;
-
-  @IsOptional()
   resetPasswordToken: string;
 
   @IsOptional()

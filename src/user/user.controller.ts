@@ -48,7 +48,7 @@ export class UserController {
 
   @ApiSecurity('JWT-auth')
   @Patch(':id/change-permission')
-  @Permissions('a-read', 'a-write')
+  @Permissions('a-write')
   @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   async updateUser(
     @Param('id') id: string,
@@ -59,7 +59,7 @@ export class UserController {
 
   @ApiSecurity('JWT-auth')
   @Delete(':id')
-  @Permissions('a-read', 'a-write')
+  @Permissions('a-write')
   @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
   remove(@Param('id') id: string) {
     return this.userService.remove(id);

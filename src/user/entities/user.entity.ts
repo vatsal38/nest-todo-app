@@ -29,9 +29,6 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ default: false })
-  isVerified: boolean;
-
   @Column({ nullable: true })
   resetPasswordToken: string;
 

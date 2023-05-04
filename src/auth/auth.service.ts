@@ -1,10 +1,16 @@
 import { UserService } from './../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-
+import { compare } from 'bcrypt';
+import { hash } from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,7 +19,17 @@ export class AuthService {
   ) {}
 
   async login(data: LoginDto) {
+    if (!data.email || !data.password) {
+      throw new BadRequestException('Email and password are required.');
+    }
     const user = await this.userService.findUserByEmail(data.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password.');
+    }
+    const isPasswordValid = await compare(data.password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password.');
+    }
     const payload = {
       email: user.email,
       role: user.role,
@@ -22,22 +38,10 @@ export class AuthService {
     return { token: this.jwtService.sign(payload) };
   }
 
-  async verifyToken(token: string): Promise<boolean> {
-    try {
-      const decoded = this.jwtService.verify(token);
-      const user = await this.userService.findUserByEmail(decoded.email);
-      user.isVerified = true;
-      await user.save();
-      return !!decoded;
-    } catch (error) {
-      return false;
-    }
-  }
-
   async generateResetPasswordToken(data: ForgotPasswordDto): Promise<string> {
     const user = await this.userService.findUserByEmail(data.email);
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
     const payload = { id: user.id };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
@@ -55,7 +59,6 @@ export class AuthService {
     const user = await this.userService.findByResetPasswordToken(
       resetPasswordToken,
     );
-    console.log(user);
     if (!user) {
       throw new Error('Invalid or expired token');
     }
@@ -63,11 +66,10 @@ export class AuthService {
     if (currentTime > user.resetPasswordExpires) {
       throw new Error('Invalid or expired token');
     }
-    user.password = resetPasswordDto.newPassword;
+    const hashedPassword = await hash(resetPasswordDto.newPassword, 10);
+    user.password = hashedPassword;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
-    user.isVerified = false;
     await user.save();
-    return { password: 'Password is changed' };
   }
 }

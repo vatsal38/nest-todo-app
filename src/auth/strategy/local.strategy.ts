@@ -16,10 +16,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(email: string, password: string): Promise<User> {
     const user: User = await this.userService.findUserByEmail(email);
     if (!user) throw new UnauthorizedException('User not found');
-    if (user && user.password == password) return user;
-    if (user == undefined)
+    if (user && user.password === password) return user;
+    if (user === undefined)
       throw new UnauthorizedException('User not found') + email;
-    if (user.password != password)
+    if (user.password !== password)
       throw new UnauthorizedException('Invalid password' + password);
   }
 }
