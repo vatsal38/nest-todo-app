@@ -23,12 +23,12 @@ export class UserService {
   }
 
   async findUserById(id: string) {
-    this.loggerService.log(`Get user by id`);
+    this.loggerService.log(`Get user by id : ${id}`);
     return await this.userRepository.findUserById(id);
   }
 
   async findUserByEmail(email: string) {
-    this.loggerService.log(`Get user by email`);
+    this.loggerService.log(`Get user by email : ${email}`);
     return await this.userRepository.findUserByEmail(email);
   }
 
@@ -38,12 +38,12 @@ export class UserService {
   }
 
   async remove(id: string) {
-    this.loggerService.log(`Delete user`);
+    this.loggerService.log(`Delete user : ${id}`);
     return await this.userRepository.removeUser(id);
   }
 
   async updateUser(id: string, userData: UpdateUserDto): Promise<User> {
-    this.loggerService.log(`Update user`);
+    this.loggerService.log(`Update user which id : ${id}`);
     return await this.userRepository.updateUser(id, userData);
   }
 }

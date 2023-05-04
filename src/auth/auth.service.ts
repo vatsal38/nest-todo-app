@@ -1,3 +1,4 @@
+import { LoggerService } from './../logger.service';
 import { UserService } from './../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import {
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly loggerService: LoggerService,
   ) {}
 
   async login(data: LoginDto) {
@@ -35,6 +37,7 @@ export class AuthService {
       role: user.role,
       id: user.id,
     };
+    this.loggerService.log(`${user.email} logged in`);
     return { token: this.jwtService.sign(payload) };
   }
 
@@ -49,6 +52,7 @@ export class AuthService {
     user.resetPasswordToken = token;
     user.resetPasswordExpires = expirationTime;
     await user.save();
+    this.loggerService.log(`Reset password token generated`);
     return token;
   }
 
@@ -70,6 +74,7 @@ export class AuthService {
     user.password = hashedPassword;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
+    this.loggerService.log(`Password has been changed`);
     await user.save();
   }
 }
