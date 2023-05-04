@@ -1,8 +1,5 @@
-import { User } from './../user/entities/user.entity';
 import { UserService } from './../user/user.service';
-
 import { JwtService } from '@nestjs/jwt';
-
 import { Injectable } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
