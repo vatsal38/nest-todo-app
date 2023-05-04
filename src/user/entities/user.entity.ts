@@ -8,6 +8,7 @@ import {
   OneToMany,
   BaseEntity,
 } from 'typeorm';
+import { AutoMap } from '@automapper/classes';
 
 @Entity()
 export class User extends BaseEntity {
@@ -15,18 +16,23 @@ export class User extends BaseEntity {
   id: string;
 
   @Column()
+  @AutoMap()
   firstName: string;
 
   @Column()
+  @AutoMap()
   lastName: string;
 
   @Column()
+  @AutoMap()
   email: string;
 
   @Column({ type: 'jsonb', nullable: true })
+  @AutoMap()
   address: AddressDto;
 
   @Column()
+  @AutoMap()
   password: string;
 
   @Column({ nullable: true })

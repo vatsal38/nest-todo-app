@@ -1,6 +1,6 @@
-import { JwtAuthGuard } from './../auth/guard/jwt.guard';
-import { PermissionsGuard } from '../auth/guard/permission.guard';
-import { Permissions } from './../permission/decorators/permission.decorator';
+import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
+import { PermissionsGuard } from '../../auth/guard/permission.guard';
+import { Permissions } from '../../permission/decorators/permission.decorator';
 import { ApiTags } from '@nestjs/swagger/dist';
 import {
   Controller,
@@ -13,11 +13,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { TodoService } from './services/todo.service';
-import { CreateTodoDto } from './dto/create-todo.dto';
+import { TodoService } from '../services/todo.service';
+import { CreateTodoDto } from '../dto/create-todo.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
-import { PaginationDto } from './dto/todo-pagination.dto';
+import { PaginationDto } from '../dto/todo-pagination.dto';
 
 @Controller('todo')
 @ApiTags('Todos')

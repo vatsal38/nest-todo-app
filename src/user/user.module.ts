@@ -6,7 +6,7 @@ import { LoggerService } from '../utils/logger/logger.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { UserService } from './services/user.service';
-import { UserController } from './user.controller';
+import { UserController } from './controllers/user.controller';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
 @Module({

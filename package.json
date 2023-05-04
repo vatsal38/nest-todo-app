@@ -25,6 +25,9 @@
     "migration:revert": "npm run typeorm -- -d ./src/database/config/ormconfig.ts migration:revert"
   },
   "dependencies": {
+    "@automapper/classes": "^8.7.6",
+    "@automapper/core": "^8.7.6",
+    "@automapper/nestjs": "^8.7.6",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
