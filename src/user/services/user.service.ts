@@ -31,9 +31,8 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, password, address } = createUserDto;
+    const { email, password } = createUserDto;
     let mappedUser = this.mapper.map(createUserDto, CreateUserDto, User);
-    let mappedAddress = this.mapper.map(address, AddressDto, User);
     if (!email) {
       throw new BadRequestException('Email is required.');
     }
@@ -80,7 +79,6 @@ export class UserService {
     }
     const { resetPasswordExpires, resetPasswordToken, permissions } =
       updateUserDto;
-    let mappedUser = this.mapper.map(updateUserDto, UpdateUserDto, User);
     user.resetPasswordExpires = resetPasswordExpires;
     user.resetPasswordToken = resetPasswordToken;
 

@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import { Connection } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { Constants } from '../../utils/constants';
@@ -18,7 +19,7 @@ export class UserSeed implements OnModuleInit {
         firstName: 'admin',
         lastName: 'admin',
         email: 'admin@admin.com',
-        password: 'admin',
+        password: await hash('admin', 10),
         address: null,
         role: Constants.ROLES.ADMIN_ROLE,
         permissions: allPermissions,
@@ -27,7 +28,7 @@ export class UserSeed implements OnModuleInit {
         firstName: 'seed',
         lastName: 'seed',
         email: 'seed@seed.com',
-        password: 'seed',
+        password: await hash('seed', 10),
         address: null,
         role: Constants.ROLES.ADMIN_ROLE,
         permissions: allPermissions,
