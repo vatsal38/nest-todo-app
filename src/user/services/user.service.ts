@@ -16,6 +16,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class UserService {

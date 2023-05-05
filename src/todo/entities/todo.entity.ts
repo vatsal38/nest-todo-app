@@ -7,6 +7,7 @@ import {
   ManyToOne,
   BaseEntity,
 } from 'typeorm';
+import { AutoMap } from '@automapper/classes';
 
 @Entity()
 export class Todo extends BaseEntity {
@@ -14,9 +15,11 @@ export class Todo extends BaseEntity {
   id: string;
 
   @Column()
+  @AutoMap()
   title: string;
 
   @Column('simple-array', { nullable: true })
+  @AutoMap()
   tags: string[];
 
   @ManyToOne(() => Category, (category) => category.todos)

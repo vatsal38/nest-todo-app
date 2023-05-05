@@ -1,12 +1,14 @@
+import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from '../dto/create-todo.dto';
-import { Todo } from '../entities/todo.entity';
 import { Repository } from 'typeorm';
 import { LoggerService } from '../../utils/logger/logger.service';
 import { PaginationDto } from '../dto/todo-pagination.dto';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
 
 @Injectable()
 export class TodoService {
@@ -16,22 +18,22 @@ export class TodoService {
     private readonly categoryRepository: Repository<Category>,
     private userService: UserService,
     private readonly loggerService: LoggerService,
+    @InjectMapper()
+    private mapper: Mapper,
   ) {}
   async create(createTodoDto: CreateTodoDto, userId: string) {
     const category = await this.categoryRepository.findOne({
       where: { id: createTodoDto.categoryId },
     });
-    const { title, tags } = createTodoDto;
+
+    let mappedTodo = this.mapper.map(createTodoDto, CreateTodoDto, Todo);
     if (!category) return false;
-    let todo = new Todo();
-    todo.title = title;
-    todo.tags = tags;
-    todo.date = new Date().toLocaleString();
-    todo.completed = false;
-    todo.category = category;
-    todo.user = await this.userService.findUserById(userId);
+    mappedTodo.date = new Date().toLocaleString();
+    mappedTodo.completed = false;
+    mappedTodo.category = category;
+    mappedTodo.user = await this.userService.findUserById(userId);
     this.loggerService.log(`Todo created`);
-    return await this.todoRepository.save(todo);
+    return await this.todoRepository.save(mappedTodo);
   }
 
   async findAllTodoByUserNotCompleted(
