@@ -9,7 +9,7 @@ export class LoggerService {
     const logFormat = format.combine(format.timestamp(), format.json());
 
     const transport = new transports.File({
-      filename: 'logs/app.log',
+      filename: 'app.log',
       level: 'info',
       format: logFormat,
     });
