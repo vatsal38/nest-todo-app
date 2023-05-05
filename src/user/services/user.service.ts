@@ -1,4 +1,3 @@
-import { AddressDto } from './../dto/address.dto';
 import { PermissionService } from './../../permission/services/permission.service';
 import { PermissionRepository } from './../../permission/repository/permission.repository';
 import { Constants } from './../../utils/constants';
@@ -29,6 +28,7 @@ export class UserService {
     private readonly loggerService: LoggerService,
     @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
+    private connection: Connection,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -45,7 +45,24 @@ export class UserService {
     mappedUser.password = hashedPassword;
     mappedUser.role = Constants.ROLES.USER_ROLE;
     mappedUser.permissions = await this.permissionService.setUserPermission();
-    return await this.userRepository.createUser(mappedUser);
+
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const createdUser = await this.userRepository.createUser(
+        mappedUser,
+        queryRunner.manager,
+      );
+      await queryRunner.commitTransaction();
+      return createdUser;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   async findAll() {

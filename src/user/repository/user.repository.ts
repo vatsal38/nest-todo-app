@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -7,8 +7,12 @@ export class UserRepository {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  async createUser(user: User) {
-    return await this.userRepository.save(user);
+  async createUser(user: User, manager?: EntityManager) {
+    if (manager) {
+      return await manager.save(user);
+    } else {
+      return await this.userRepository.save(user);
+    }
   }
 
   async findUserByEmail(email: string): Promise<User> {
