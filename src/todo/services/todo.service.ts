@@ -38,7 +38,7 @@ export class TodoService {
     userId: string,
     paginationDto: PaginationDto,
   ) {
-    this.loggerService.log(`Get not completed todo`);
+    this.loggerService.log(`Get the list not-completed todo`);
     const { page, perPage } = paginationDto;
     const skippedItems = (page - 1) * perPage;
     const [todos, count] = await this.todoRepository
@@ -46,6 +46,13 @@ export class TodoService {
       .leftJoinAndSelect('todo.user', 'user')
       .leftJoinAndSelect('todo.category', 'category')
       .where('todo.user.id = :userId', { userId })
+      .select([
+        'todo.id',
+        'todo.title',
+        'category.id',
+        'todo.completed',
+        'user.id',
+      ])
       .andWhere('todo.completed = :completed', { completed: false })
       .skip(skippedItems)
       .take(perPage)
@@ -64,13 +71,20 @@ export class TodoService {
     userId: string,
     paginationDto: PaginationDto,
   ) {
-    this.loggerService.log(`Get completed todo`);
+    this.loggerService.log(`Get the list of completed todo`);
     const { page, perPage } = paginationDto;
     const skippedItems = (page - 1) * perPage;
     const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
       .leftJoinAndSelect('todo.user', 'user')
       .leftJoinAndSelect('todo.category', 'category')
+      .select([
+        'todo.id',
+        'todo.title',
+        'category.id',
+        'todo.completed',
+        'user.id',
+      ])
       .where('todo.user.id = :userId', { userId })
       .andWhere('todo.completed = :completed', { completed: true })
       .skip(skippedItems)
@@ -87,12 +101,12 @@ export class TodoService {
   }
 
   update(todoId: string) {
-    this.loggerService.log(`Update todo`);
+    this.loggerService.log(`Update todo ${todoId}`);
     return this.todoRepository.update(todoId, { completed: true });
   }
 
   remove(todoId: string) {
-    this.loggerService.log(`Delete todo`);
+    this.loggerService.log(`Delete todo ${todoId}`);
     return this.todoRepository.delete(todoId);
   }
 }
