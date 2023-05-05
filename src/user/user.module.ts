@@ -9,6 +9,7 @@ import { UserService } from './services/user.service';
 import { UserController } from './controllers/user.controller';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
+import { UserMapper } from './mapper/user-mapper';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Permission])],
   controllers: [UserController],
@@ -19,9 +20,8 @@ import { UserRepository } from './repository/user.repository';
     UserRepository,
     UserSeed,
     PermissionService,
+    UserMapper,
   ],
   exports: [UserService, UserRepository],
 })
-export class UserModule {
-  constructor() {}
-}
+export class UserModule {}

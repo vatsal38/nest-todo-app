@@ -3,10 +3,19 @@ import { UserModule } from './user/user.module';
 import { TodoModule } from './todo/todo.module';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
-
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
 
 @Module({
-  imports: [DatabaseModule, UserModule, TodoModule, AuthModule],
+  imports: [
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
+    DatabaseModule,
+    UserModule,
+    TodoModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
