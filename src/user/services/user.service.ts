@@ -1,4 +1,5 @@
-import { Permission } from './../../permission/entities/permission.entity';
+import { AddressDto } from './../dto/address.dto';
+import { PermissionService } from './../../permission/services/permission.service';
 import { PermissionRepository } from './../../permission/repository/permission.repository';
 import { Constants } from './../../utils/constants';
 import { hash } from 'bcrypt';
@@ -23,14 +24,16 @@ export class UserService {
     private mapper: Mapper,
     @Inject(UserRepository)
     private readonly userRepository: UserRepository,
+    private readonly permissionService: PermissionService,
     private readonly loggerService: LoggerService,
     @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, password } = createUserDto;
+    const { email, password, address } = createUserDto;
     let mappedUser = this.mapper.map(createUserDto, CreateUserDto, User);
+    let mappedAddress = this.mapper.map(address, AddressDto, User);
     if (!email) {
       throw new BadRequestException('Email is required.');
     }
@@ -41,8 +44,7 @@ export class UserService {
     const hashedPassword = await hash(password, 10);
     mappedUser.password = hashedPassword;
     mappedUser.role = Constants.ROLES.USER_ROLE;
-    mappedUser.permissions =
-      await this.permissionRepository.setUserPermission();
+    mappedUser.permissions = await this.permissionService.setUserPermission();
     return await this.userRepository.createUser(mappedUser);
   }
 

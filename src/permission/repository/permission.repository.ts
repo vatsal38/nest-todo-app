@@ -8,14 +8,11 @@ export class PermissionRepository {
     private permissionRepository: Repository<Permission>,
   ) {}
   async setUserPermission() {
-    const getUserPermissionCode = this.permissionRepository.find({
+    return await this.permissionRepository.find({
       where: {
         name: In(['UserRead', 'UserWrite']),
       },
     });
-
-    const permissionUser = (await getUserPermissionCode).map((s) => s.pId);
-    return permissionUser;
   }
 
   async allPermission() {
