@@ -44,7 +44,7 @@ export class User extends BaseEntity {
   @Column()
   role: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'jsonb' })
   permissions: string[];
 
   @OneToMany(() => Todo, (todo) => todo.user)
