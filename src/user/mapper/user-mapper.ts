@@ -1,4 +1,4 @@
-import { Mapper, createMap } from '@automapper/core';
+import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -13,8 +13,15 @@ export class UserMapper extends AutomapperProfile {
 
   override get profile() {
     return (mapper) => {
-      createMap(mapper, CreateUserDto, User);
-      createMap(mapper, AddressDto, User);
+      createMap(
+        mapper,
+        CreateUserDto,
+        User,
+        forMember(
+          (dest) => dest.address,
+          mapFrom((src) => src.address),
+        ),
+      );
     };
   }
 }
