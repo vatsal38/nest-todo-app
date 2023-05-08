@@ -16,7 +16,7 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
     password: env.db.password,
     database: env.db.database,
     entities: [__dirname + './../../**/entities/*.entity.{ts,js}'],
-    migrations: [__dirname + './../../migration/*.{ts,js}'],
+    migrations: [__dirname + './../../database/migration/*.{ts,js}'],
     synchronize: false,
     dropSchema: false,
   }),

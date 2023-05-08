@@ -1,3 +1,4 @@
+import { AddressDto } from './../dto/address.dto';
 import { PermissionService } from './../../permission/services/permission.service';
 import { PermissionRepository } from './../../permission/repository/permission.repository';
 import { Constants } from './../../utils/constants';
@@ -16,6 +17,8 @@ import { User } from '../entities/user.entity';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Connection } from 'typeorm';
+import { Address } from '../entities/address.entity';
+import { AddressRepository } from '../repository/address.repository';
 
 @Injectable()
 export class UserService {
@@ -28,10 +31,12 @@ export class UserService {
     private readonly loggerService: LoggerService,
     @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
+    @Inject(AddressRepository)
+    private readonly addressRepository: AddressRepository,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, password } = createUserDto;
+    const { email, password, address } = createUserDto;
     let mappedUser = this.mapper.map(createUserDto, CreateUserDto, User);
     if (!email) {
       throw new BadRequestException('Email is required.');
@@ -44,6 +49,7 @@ export class UserService {
     mappedUser.password = hashedPassword;
     mappedUser.role = Constants.ROLES.USER_ROLE;
     mappedUser.permissions = await this.permissionService.setUserPermission();
+    mappedUser.address = await this.addressRepository.createAddress(address);
     return await this.userRepository.createUser(mappedUser);
   }
 

@@ -10,8 +10,10 @@ import { UserController } from './controllers/user.controller';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
 import { UserMapper } from './mapper/user-mapper';
+import { AddressRepository } from './repository/address.repository';
+import { Address } from './entities/address.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Permission])],
+  imports: [TypeOrmModule.forFeature([User, Permission,Address])],
   controllers: [UserController],
   providers: [
     UserService,
@@ -21,7 +23,8 @@ import { UserMapper } from './mapper/user-mapper';
     UserSeed,
     PermissionService,
     UserMapper,
+    AddressRepository,
   ],
-  exports: [UserService, UserRepository],
+  exports: [UserService, UserRepository,AddressRepository],
 })
 export class UserModule {}

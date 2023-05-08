@@ -7,8 +7,11 @@ import {
   Column,
   OneToMany,
   BaseEntity,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
+import { Address } from './address.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -27,9 +30,10 @@ export class User extends BaseEntity {
   @AutoMap()
   email: string;
 
-  @Column({ type: 'jsonb', nullable: true })
   @AutoMap()
-  address: AddressDto;
+  @OneToOne(() => Address, (address) => address.user)
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
 
   @Column()
   @AutoMap()

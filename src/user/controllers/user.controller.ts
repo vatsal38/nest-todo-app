@@ -1,3 +1,4 @@
+import { AddressDto } from './../dto/address.dto';
 import { PermissionsGuard } from '../../auth/guard/permission.guard';
 import { Permissions } from '../../permission/decorators/permission.decorator';
 import { JwtAuthGuard } from '../../auth/guard/jwt.guard';

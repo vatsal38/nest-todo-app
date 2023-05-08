@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Address } from '../entities/address.entity';
 
 export class UserRepository {
   constructor(
@@ -8,16 +9,7 @@ export class UserRepository {
     private userRepository: Repository<User>,
   ) {}
   async createUser(user: User) {
-    let manager = this.userRepository.manager;
-    await manager.transaction(async (transactionalEntityManager) => {
-      try {
-        const createdUser = await transactionalEntityManager.save(user);
-        return createdUser;
-      } catch (error) {
-        const removedUser = await transactionalEntityManager.remove(user);
-        return removedUser;
-      }
-    });
+    return await this.userRepository.save(user);
   }
 
   async findUserByEmail(email: string): Promise<User> {

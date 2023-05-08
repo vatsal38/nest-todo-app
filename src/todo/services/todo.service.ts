@@ -28,6 +28,7 @@ export class TodoService {
     });
 
     let mappedTodo = this.mapper.map(createTodoDto, CreateTodoDto, Todo);
+    console.log("mappedTodo",mappedTodo)
     if (!category) return false;
     mappedTodo.date = new Date().toLocaleString();
     mappedTodo.completed = false;
