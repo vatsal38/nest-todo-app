@@ -16,6 +16,7 @@ import { Address } from './address.entity';
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @AutoMap()
   id: string;
 
   @Column()
@@ -30,9 +31,12 @@ export class User extends BaseEntity {
   @AutoMap()
   email: string;
 
-  @AutoMap()
-  @OneToOne(() => Address, (address) => address.user)
+  @OneToOne(() => Address, (address) => address.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'address_id' })
+  @AutoMap()
   address: Address;
 
   @Column()
@@ -46,11 +50,14 @@ export class User extends BaseEntity {
   resetPasswordExpires: Date;
 
   @Column()
+  @AutoMap()
   role: string;
 
   @Column({ type: 'jsonb' })
+  @AutoMap()
   permissions: string[];
 
   @OneToMany(() => Todo, (todo) => todo.user)
+  @AutoMap()
   todos: Todo[];
 }

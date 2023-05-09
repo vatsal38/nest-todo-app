@@ -6,6 +6,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 import { Todo } from './todo.entity';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   schema: 'public',
@@ -13,12 +14,15 @@ import { Todo } from './todo.entity';
 })
 export class Category extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @AutoMap()
   id: string;
 
   @Column()
+  @AutoMap()
   categoryTitle: string;
 
   @Column()
+  @AutoMap()
   categoryName: string;
 
   @OneToMany(() => Todo, (todo) => todo.category)

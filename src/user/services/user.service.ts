@@ -1,4 +1,3 @@
-import { AddressDto } from './../dto/address.dto';
 import { PermissionService } from './../../permission/services/permission.service';
 import { PermissionRepository } from './../../permission/repository/permission.repository';
 import { Constants } from './../../utils/constants';
@@ -16,10 +15,11 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Connection } from 'typeorm';
+import { UserDisplayModel } from '../dto/user-display-modal';
+import { v4 as uuid } from 'uuid';
 import { Address } from '../entities/address.entity';
 import { AddressRepository } from '../repository/address.repository';
-
+import { AddressDto } from '../dto/address.dto';
 @Injectable()
 export class UserService {
   constructor(
@@ -36,8 +36,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, password, address } = createUserDto;
-    let mappedUser = this.mapper.map(createUserDto, CreateUserDto, User);
+    const { email, password, firstName, lastName, address } = createUserDto;
     if (!email) {
       throw new BadRequestException('Email is required.');
     }
@@ -46,11 +45,26 @@ export class UserService {
       throw new ConflictException('Email is already in use.');
     }
     const hashedPassword = await hash(password, 10);
-    mappedUser.password = hashedPassword;
-    mappedUser.role = Constants.ROLES.USER_ROLE;
-    mappedUser.permissions = await this.permissionService.setUserPermission();
-    mappedUser.address = await this.addressRepository.createAddress(address);
-    return await this.userRepository.createUser(mappedUser);
+
+    const newUser = new User();
+    newUser.firstName = firstName;
+    newUser.lastName = lastName;
+    newUser.email = email;
+    newUser.address = new Address(
+      uuid(),
+      address.street,
+      address.city,
+      address.state,
+      address.zipcode,
+    );
+    newUser.password = hashedPassword;
+    newUser.role = Constants.ROLES.USER_ROLE;
+    newUser.permissions = await this.permissionService.setUserPermission();
+
+    let mappedUser = await this.userRepository.createUser(newUser);
+    let user = this.mapper.map(mappedUser, User, UserDisplayModel);
+    this.loggerService.log(`User created`);
+    return user;
   }
 
   async findAll() {

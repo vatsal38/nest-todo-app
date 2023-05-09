@@ -9,6 +9,7 @@ import { LoggerService } from '../../utils/logger/logger.service';
 import { PaginationDto } from '../dto/todo-pagination.dto';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
+import { TodoDisplayModel } from '../dto/todo-display-model';
 
 @Injectable()
 export class TodoService {
@@ -23,19 +24,24 @@ export class TodoService {
   ) {}
 
   async create(createTodoDto: CreateTodoDto, userId: string) {
+    const { title, tags } = createTodoDto;
     const category = await this.categoryRepository.findOne({
       where: { id: createTodoDto.categoryId },
     });
-
-    let mappedTodo = this.mapper.map(createTodoDto, CreateTodoDto, Todo);
-    console.log("mappedTodo",mappedTodo)
+    const user = await this.userService.findUserById(userId);
     if (!category) return false;
-    mappedTodo.date = new Date().toLocaleString();
-    mappedTodo.completed = false;
-    mappedTodo.category = category;
-    mappedTodo.user = await this.userService.findUserById(userId);
+    let todo = new Todo();
+    todo.title = title;
+    todo.tags = tags;
+    todo.date = new Date().toLocaleString();
+    todo.completed = false;
+    todo.category = category;
+    todo.user = user;
     this.loggerService.log(`Todo created`);
-    return await this.todoRepository.save(mappedTodo);
+    let createTodo = await this.todoRepository.save(todo);
+    let mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
+    console.log("user",mappedTodo)
+    return mappedTodo;
   }
 
   async findAllTodoByUserNotCompleted(

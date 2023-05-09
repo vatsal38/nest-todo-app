@@ -12,6 +12,7 @@ import { AutoMap } from '@automapper/classes';
 @Entity()
 export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @AutoMap()
   id: string;
 
   @Column()
@@ -23,14 +24,18 @@ export class Todo extends BaseEntity {
   tags: string[];
 
   @ManyToOne(() => Category, (category) => category.todos)
+  @AutoMap()
   category: Category;
 
   @Column()
+  @AutoMap()
   date: string;
 
   @Column()
+  @AutoMap()
   completed: boolean;
 
   @ManyToOne(() => User, (user) => user.todos, { onDelete: 'CASCADE' })
+  @AutoMap()
   user: User;
 }

@@ -2,7 +2,7 @@ import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Todo } from '../entities/todo.entity';
-import { CreateTodoDto } from '../dto/create-todo.dto';
+import { TodoDisplayModel } from '../dto/todo-display-model';
 
 @Injectable()
 export class ToDoMapper extends AutomapperProfile {
@@ -14,11 +14,15 @@ export class ToDoMapper extends AutomapperProfile {
     return (mapper) => {
       createMap(
         mapper,
-        CreateTodoDto,
         Todo,
+        TodoDisplayModel,
         forMember(
           (d) => d.tags,
           mapFrom((source) => source.tags),
+        ),
+        forMember(
+          (d) => d.user.id,
+          mapFrom((source) => source.user.id),
         ),
       );
     };
