@@ -18,8 +18,6 @@ import { InjectMapper } from '@automapper/nestjs';
 import { UserDisplayModel } from '../dto/user-display-modal';
 import { v4 as uuid } from 'uuid';
 import { Address } from '../entities/address.entity';
-import { AddressRepository } from '../repository/address.repository';
-import { AddressDto } from '../dto/address.dto';
 @Injectable()
 export class UserService {
   constructor(
@@ -31,8 +29,6 @@ export class UserService {
     private readonly loggerService: LoggerService,
     @Inject(PermissionRepository)
     private readonly permissionRepository: PermissionRepository,
-    @Inject(AddressRepository)
-    private readonly addressRepository: AddressRepository,
   ) {}
 
   async create(createUserDto: CreateUserDto) {

@@ -1,5 +1,3 @@
-import { AddressDto } from './../dto/address.dto';
-
 import { Todo } from '../../todo/entities/todo.entity';
 import {
   Entity,
