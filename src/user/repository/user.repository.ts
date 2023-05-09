@@ -9,7 +9,6 @@ export class UserRepository {
   ) {}
   async createUser(user: User) {
     let manager = this.userRepository.manager;
-
     await manager.transaction(async (transactionalEntityManager) => {
       if (user.address != null) {
         await transactionalEntityManager.save(user.address);
@@ -41,7 +40,14 @@ export class UserRepository {
     });
   }
 
-  async updateUser(user: User): Promise<User> {
-    return await this.userRepository.save(user);
+  async updateUser(user: User) {
+    let manager = this.userRepository.manager;
+    await manager.transaction(async (transactionalEntityManager) => {
+      if (user.permissions != null) {
+        await transactionalEntityManager.save(user.address);
+      }
+      await transactionalEntityManager.save(user);
+    });
+    return user;
   }
 }

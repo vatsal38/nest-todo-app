@@ -40,7 +40,6 @@ export class TodoService {
     this.loggerService.log(`Todo created`);
     let createTodo = await this.todoRepository.save(todo);
     let mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
-    console.log("user",mappedTodo)
     return mappedTodo;
   }
 

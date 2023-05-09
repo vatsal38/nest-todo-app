@@ -88,7 +88,7 @@ export class UserService {
     return await this.userRepository.removeUser(id);
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findUserById(id);
     if (!user) {
       return null;
