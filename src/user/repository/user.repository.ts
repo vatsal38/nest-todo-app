@@ -8,7 +8,7 @@ export class UserRepository {
     private userRepository: Repository<User>,
   ) {}
   async createUser(user: User) {
-    let manager = this.userRepository.manager;
+    const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
       if (user.address != null) {
         await transactionalEntityManager.save(user.address);
@@ -41,7 +41,7 @@ export class UserRepository {
   }
 
   async updateUser(user: User) {
-    let manager = this.userRepository.manager;
+    const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
       if (user.permissions != null) {
         await transactionalEntityManager.save(user.address);

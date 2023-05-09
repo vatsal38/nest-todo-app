@@ -6,7 +6,7 @@ import { PermissionRepository } from './repository/permission.repository';
 @Module({
   imports: [],
   controllers: [],
-  providers: [PermissionService, PermissionRepository,LoggerService],
+  providers: [PermissionService, PermissionRepository, LoggerService],
   exports: [PermissionService, PermissionRepository],
 })
 export class PermissionModule {}

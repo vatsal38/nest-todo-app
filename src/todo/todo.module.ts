@@ -12,6 +12,6 @@ import { ToDoMapper } from './mapper/todo-mapper';
 @Module({
   imports: [TypeOrmModule.forFeature([Todo, Category]), UserModule],
   controllers: [TodoController],
-  providers: [TodoService, LoggerService, PermissionsGuard,ToDoMapper],
+  providers: [TodoService, LoggerService, PermissionsGuard, ToDoMapper],
 })
 export class TodoModule {}

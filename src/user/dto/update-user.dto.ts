@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { AutoMap } from '@automapper/classes';
 

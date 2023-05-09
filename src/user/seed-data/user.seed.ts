@@ -37,9 +37,10 @@ export class UserSeed implements OnModuleInit {
     const existingEmails = await this.connection.getRepository(User).find({
       select: ['email'],
     });
-    const uniqueUsers = users.filter((user) => {
-      return !existingEmails.some((emailObj) => emailObj.email === user.email);
-    });
+    const uniqueUsers = users.filter(
+      (user) =>
+        !existingEmails.some((emailObj) => emailObj.email === user.email),
+    );
     await this.connection.getRepository(User).save(uniqueUsers);
   }
 }

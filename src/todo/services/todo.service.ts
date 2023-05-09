@@ -30,7 +30,7 @@ export class TodoService {
     });
     const user = await this.userService.findUserById(userId);
     if (!category) return false;
-    let todo = new Todo();
+    const todo = new Todo();
     todo.title = title;
     todo.tags = tags;
     todo.date = new Date().toLocaleString();
@@ -38,8 +38,8 @@ export class TodoService {
     todo.category = category;
     todo.user = user;
     this.loggerService.log(`Todo created`);
-    let createTodo = await this.todoRepository.save(todo);
-    let mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
+    const createTodo = await this.todoRepository.save(todo);
+    const mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
     return mappedTodo;
   }
 

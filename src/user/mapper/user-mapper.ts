@@ -1,10 +1,4 @@
-import {
-  Mapper,
-  createMap,
-  forMember,
-  mapFrom,
-  mapWith,
-} from '@automapper/core';
+import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';

@@ -41,7 +41,6 @@ export class UserService {
       throw new ConflictException('Email is already in use.');
     }
     const hashedPassword = await hash(password, 10);
-
     const newUser = new User();
     newUser.firstName = firstName;
     newUser.lastName = lastName;
@@ -57,8 +56,8 @@ export class UserService {
     newUser.role = Constants.ROLES.USER_ROLE;
     newUser.permissions = await this.permissionService.setUserPermission();
 
-    let mappedUser = await this.userRepository.createUser(newUser);
-    let user = this.mapper.map(mappedUser, User, UserDisplayModel);
+    const mappedUser = await this.userRepository.createUser(newUser);
+    const user = this.mapper.map(mappedUser, User, UserDisplayModel);
     this.loggerService.log(`User created`);
     return user;
   }

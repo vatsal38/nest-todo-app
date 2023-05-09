@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from './auth/guard/jwt.guard';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder } from '@nestjs/swagger';
