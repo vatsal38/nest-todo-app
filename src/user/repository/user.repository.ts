@@ -10,7 +10,7 @@ export class UserRepository {
   async createUser(user: User): Promise<User> {
     const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
-      if (user.address != null) {
+      if (user.address !== null) {
         await transactionalEntityManager.save(user.address);
       }
       await transactionalEntityManager.save(user);
@@ -43,7 +43,7 @@ export class UserRepository {
   async updateUser(user: User): Promise<User> {
     const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
-      if (user.permissions != null) {
+      if (user.permissions !== null) {
         await transactionalEntityManager.save(user.address);
       }
       await transactionalEntityManager.save(user);

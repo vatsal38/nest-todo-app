@@ -8,6 +8,7 @@ export default new DataSource({
   username: env.db.username,
   password: env.db.password,
   database: env.db.database,
+  /*eslint-disable */
   entities: [__dirname + './../../**/entities/*.entity.{ts,js}'],
   migrations: [__dirname + './../../database/migration/*.{ts,js}'],
   synchronize: false,

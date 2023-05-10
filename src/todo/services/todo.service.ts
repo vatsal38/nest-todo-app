@@ -1,4 +1,3 @@
-import { User } from './../../user/entities/user.entity';
 import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';

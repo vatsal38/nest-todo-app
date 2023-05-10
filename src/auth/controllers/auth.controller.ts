@@ -14,7 +14,9 @@ import { ResetPasswordDto } from '../dto/reset-password.dto';
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    this.authService = authService;
+  }
 
   @Post('/login')
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {

@@ -18,8 +18,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) throw new UnauthorizedException('User not found');
     if (user && user.password === password) return user;
     if (user === undefined)
-      throw new UnauthorizedException('User not found') + email;
+      throw new UnauthorizedException(`User not found ${email}`);
     if (user.password !== password)
-      throw new UnauthorizedException('Invalid password' + password);
+      throw new UnauthorizedException(`Invalid password ${password}`);
   }
 }

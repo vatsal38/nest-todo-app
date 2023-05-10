@@ -18,6 +18,6 @@ export class PermissionService {
   }
   async allPermission(): Promise<string[]> {
     this.loggerService.log(`Set all permission`);
-    return this.permissionRepository.allPermission();
+    return await this.permissionRepository.allPermission();
   }
 }

@@ -79,7 +79,7 @@ export class UserService {
 
   async findByResetPasswordToken(resetPasswordToken: string): Promise<User> {
     this.loggerService.log(`Get reset password token`);
-    return this.userRepository.findToken(resetPasswordToken);
+    return await this.userRepository.findToken(resetPasswordToken);
   }
 
   async remove(id: string): Promise<any> {
