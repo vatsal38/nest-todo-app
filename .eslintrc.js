@@ -21,7 +21,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'warn',
     '@typescript-eslint/no-explicit-any': 'off', //<<======= Pendding (Problem in remove : any) =======>>
-
     'no-console': 'error',
   },
 };
