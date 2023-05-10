@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { createLogger, format, transports } from 'winston';
+import { Logger, createLogger, format, transports } from 'winston';
 
 @Injectable()
 export class LoggerService {
-  private logger: any;
+  private logger: Logger;
 
   constructor() {
     const logFormat = format.combine(format.timestamp(), format.json());
@@ -19,11 +19,11 @@ export class LoggerService {
     });
   }
 
-  log(message: string, context?: string) {
+  log(message: string, context?: string): void {
     this.logger.log('info', message, { context });
   }
 
-  error(message: string, context?: string) {
+  error(message: string, context?: string): void {
     this.logger.log('error', message, { context });
   }
 }

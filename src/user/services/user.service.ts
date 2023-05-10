@@ -31,7 +31,7 @@ export class UserService {
     private readonly permissionRepository: PermissionRepository,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserDisplayModel> {
     const { email, password, firstName, lastName, address } = createUserDto;
     if (!email) {
       throw new BadRequestException('Email is required.');
@@ -62,17 +62,17 @@ export class UserService {
     return user;
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     this.loggerService.log(`Get all user`);
     return await this.userRepository.findAll();
   }
 
-  async findUserById(id: string) {
+  async findUserById(id: string): Promise<User> {
     this.loggerService.log(`Get user by id : ${id}`);
     return await this.userRepository.findUserById(id);
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<User> {
     this.loggerService.log(`Get user by email : ${email}`);
     return await this.userRepository.findUserByEmail(email);
   }
@@ -82,12 +82,15 @@ export class UserService {
     return this.userRepository.findToken(resetPasswordToken);
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<any> {
     this.loggerService.log(`Delete user : ${id}`);
     return await this.userRepository.removeUser(id);
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+  async updateUser(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<User | null> {
     const user = await this.userRepository.findUserById(id);
     if (!user) {
       return null;

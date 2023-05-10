@@ -10,13 +10,13 @@ export class PermissionService {
     private readonly loggerService: LoggerService,
   ) {}
 
-  async setUserPermission() {
+  async setUserPermission(): Promise<string[]> {
     this.loggerService.log(`Set user to User Permission`);
     const getUserPermissionCode = this.permissionRepository.setUserPermission();
     const permissionUser = (await getUserPermissionCode).map((s) => s.pId);
     return permissionUser;
   }
-  async allPermission() {
+  async allPermission(): Promise<string[]> {
     this.loggerService.log(`Set all permission`);
     return this.permissionRepository.allPermission();
   }

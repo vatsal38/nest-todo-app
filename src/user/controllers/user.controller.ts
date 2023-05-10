@@ -19,6 +19,7 @@ import { ApiTags } from '@nestjs/swagger/dist';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
+import { UserDisplayModel } from '../dto/user-display-modal';
 
 @Controller('user')
 @ApiTags('Users')
@@ -26,24 +27,26 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/signup')
-  create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(
+    @Body(ValidationPipe) createUserDto: CreateUserDto,
+  ): Promise<UserDisplayModel> {
+    return await this.userService.create(createUserDto);
   }
 
   @ApiSecurity('JWT-auth')
   @Get()
   @Permissions('a-read')
   @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
-  findAll() {
-    return this.userService.findAll();
+  async findAll(): Promise<User[]> {
+    return await this.userService.findAll();
   }
 
   @ApiSecurity('JWT-auth')
   @Get(':id')
   @Permissions('a-read')
   @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
-  findById(@Param('id') id: string) {
-    return this.userService.findUserById(id);
+  async findById(@Param('id') id: string): Promise<User> {
+    return await this.userService.findUserById(id);
   }
 
   @ApiSecurity('JWT-auth')
@@ -61,7 +64,7 @@ export class UserController {
   @Delete(':id')
   @Permissions('a-write')
   @UseGuards(JwtAuthGuard, RoleGuard, PermissionsGuard)
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<any> {
+    return await this.userService.remove(id);
   }
 }

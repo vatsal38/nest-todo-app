@@ -18,6 +18,8 @@ import { CreateTodoDto } from '../dto/create-todo.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { ApiSecurity } from '@nestjs/swagger/dist/decorators';
 import { PaginationDto } from '../dto/todo-pagination.dto';
+import { Todo } from '../entities/todo.entity';
+import { TodoDisplayModel } from '../dto/todo-display-model';
 
 @Controller('todo')
 @ApiTags('Todos')
@@ -28,21 +30,27 @@ export class TodoController {
   @Post(':userId')
   @Permissions('u-read', 'u-write')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  create(
+  async create(
     @Body(ValidationPipe) createTodoDto: CreateTodoDto,
     @Param('userId') userId: string,
-  ) {
-    return this.todoService.create(createTodoDto, userId);
+  ): Promise<TodoDisplayModel | false> {
+    return await this.todoService.create(createTodoDto, userId);
   }
 
   @Get('/:userId/not-completed-todo')
   @Permissions('u-read')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  findAllTodoByUserNotCompleted(
+  async findAllTodoByUserNotCompleted(
     @Param('userId') userId: string,
     @Query() paginationDto: PaginationDto,
-  ) {
-    return this.todoService.findAllTodoByUserNotCompleted(
+  ): Promise<{
+    items: Todo[];
+    totalItems: number;
+    currentPage: number;
+    perPage: number;
+    totalPages: number;
+  }> {
+    return await this.todoService.findAllTodoByUserNotCompleted(
       userId,
       paginationDto,
     );
@@ -51,23 +59,32 @@ export class TodoController {
   @Get('/:userId/completed-todo')
   @Permissions('u-read')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  findAllTodoByUserCompleted(
+  async findAllTodoByUserCompleted(
     @Param('userId') userId: string,
     @Query() paginationDto: PaginationDto,
-  ) {
-    return this.todoService.findAllTodoByUserCompleted(userId, paginationDto);
+  ): Promise<{
+    items: Todo[];
+    totalItems: number;
+    currentPage: number;
+    perPage: number;
+    totalPages: number;
+  }> {
+    return await this.todoService.findAllTodoByUserCompleted(
+      userId,
+      paginationDto,
+    );
   }
 
   @Patch(':todoId')
   @Permissions('u-read', 'u-write')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  update(@Param('todoId') id: string) {
-    return this.todoService.update(id);
+  async update(@Param('todoId') id: string): Promise<void> {
+    return await this.todoService.update(id);
   }
 
   @Delete(':todoId')
   @Permissions('u-read', 'u-write')
-  remove(@Param('todoId') id: string) {
-    return this.todoService.remove(id);
+  async remove(@Param('todoId') id: string): Promise<void> {
+    return await this.todoService.remove(id);
   }
 }

@@ -1,3 +1,4 @@
+import { User } from './../../user/entities/user.entity';
 import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';
@@ -23,7 +24,10 @@ export class TodoService {
     private mapper: Mapper,
   ) {}
 
-  async create(createTodoDto: CreateTodoDto, userId: string) {
+  async create(
+    createTodoDto: CreateTodoDto,
+    userId: string,
+  ): Promise<TodoDisplayModel | false> {
     const { title, tags } = createTodoDto;
     const category = await this.categoryRepository.findOne({
       where: { id: createTodoDto.categoryId },
@@ -46,7 +50,13 @@ export class TodoService {
   async findAllTodoByUserNotCompleted(
     userId: string,
     paginationDto: PaginationDto,
-  ) {
+  ): Promise<{
+    items: Todo[];
+    totalItems: number;
+    currentPage: number;
+    perPage: number;
+    totalPages: number;
+  }> {
     this.loggerService.log(`Get the list not-completed todo`);
     const { page, perPage } = paginationDto;
     const skippedItems = (page - 1) * perPage;
@@ -79,7 +89,13 @@ export class TodoService {
   async findAllTodoByUserCompleted(
     userId: string,
     paginationDto: PaginationDto,
-  ) {
+  ): Promise<{
+    items: Todo[];
+    totalItems: number;
+    currentPage: number;
+    perPage: number;
+    totalPages: number;
+  }> {
     this.loggerService.log(`Get the list of completed todo`);
     const { page, perPage } = paginationDto;
     const skippedItems = (page - 1) * perPage;
@@ -109,13 +125,13 @@ export class TodoService {
     };
   }
 
-  update(todoId: string) {
+  async update(todoId: string): Promise<any> {
     this.loggerService.log(`Update todo ${todoId}`);
-    return this.todoRepository.update(todoId, { completed: true });
+    return await this.todoRepository.update(todoId, { completed: true });
   }
 
-  remove(todoId: string) {
+  async remove(todoId: string): Promise<any> {
     this.loggerService.log(`Delete todo ${todoId}`);
-    return this.todoRepository.delete(todoId);
+    return await this.todoRepository.delete(todoId);
   }
 }

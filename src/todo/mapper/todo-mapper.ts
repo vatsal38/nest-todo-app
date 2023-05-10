@@ -11,7 +11,7 @@ export class ToDoMapper extends AutomapperProfile {
   }
 
   override get profile() {
-    return (mapper) => {
+    return (mapper: Mapper): void => {
       createMap(
         mapper,
         Todo,

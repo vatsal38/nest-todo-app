@@ -11,7 +11,7 @@ export class UserSeed implements OnModuleInit {
     private permissionService: PermissionService,
   ) {}
 
-  async onModuleInit() {
+  async onModuleInit(): Promise<void> {
     const allPermissions = await this.permissionService.allPermission();
 
     const users = [

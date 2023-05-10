@@ -17,12 +17,14 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     return await this.authService.login(loginDto);
   }
 
   @Post('/forgot-password')
-  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+  async forgotPassword(
+    @Body() forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<{ resetPasswordToken: string }> {
     const resetPasswordToken =
       await this.authService.generateResetPasswordToken(forgotPasswordDto);
     return { resetPasswordToken: resetPasswordToken };
@@ -32,12 +34,11 @@ export class AuthController {
   async resetPassword(
     @Param('token') token: string,
     @Body() resetPasswordDto: ResetPasswordDto,
-  ): Promise<any> {
+  ): Promise<void> {
     try {
       await this.authService.resetPassword(token, resetPasswordDto);
     } catch (err) {
       throw new UnauthorizedException(err.message);
     }
-    return { password: 'Password is changed' };
   }
 }

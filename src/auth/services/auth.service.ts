@@ -20,7 +20,7 @@ export class AuthService {
     private readonly loggerService: LoggerService,
   ) {}
 
-  async login(data: LoginDto) {
+  async login(data: LoginDto): Promise<{ token: string }> {
     if (!data.email || !data.password) {
       throw new BadRequestException('Email and password are required.');
     }
@@ -59,7 +59,7 @@ export class AuthService {
   async resetPassword(
     resetPasswordToken: string,
     resetPasswordDto: ResetPasswordDto,
-  ) {
+  ): Promise<void> {
     const user = await this.userService.findByResetPasswordToken(
       resetPasswordToken,
     );

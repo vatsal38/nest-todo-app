@@ -13,7 +13,7 @@ export class UserMapper extends AutomapperProfile {
   }
 
   override get profile() {
-    return (mapper) => {
+    return (mapper: Mapper): void => {
       createMap(
         mapper,
         User,

@@ -7,7 +7,7 @@ export class UserRepository {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  async createUser(user: User) {
+  async createUser(user: User): Promise<User> {
     const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
       if (user.address != null) {
@@ -18,7 +18,7 @@ export class UserRepository {
     return user;
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
@@ -26,21 +26,21 @@ export class UserRepository {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
-  async findUserById(id: string) {
+  async findUserById(id: string): Promise<User> {
     return await this.userRepository.findOne({ where: { id: id } });
   }
 
-  async removeUser(id: string) {
-    return await this.userRepository.delete(id);
+  async removeUser(id: string): Promise<any> {
+    await this.userRepository.delete(id);
   }
 
-  async findToken(resetPasswordToken: string) {
+  async findToken(resetPasswordToken: string): Promise<User> {
     return await this.userRepository.findOne({
       where: { resetPasswordToken: resetPasswordToken },
     });
   }
 
-  async updateUser(user: User) {
+  async updateUser(user: User): Promise<User> {
     const manager = this.userRepository.manager;
     await manager.transaction(async (transactionalEntityManager) => {
       if (user.permissions != null) {
