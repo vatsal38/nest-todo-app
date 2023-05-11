@@ -51,20 +51,20 @@ module.exports = {
     'no-undef': 'error',
     'no-unused-expressions': 'error',
     'no-var': 'error',
-    'brace-style': ['error', '1tbs', { allowSingleLine: true }],
+    // 'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'arrow-parens': ['error', 'always'],
     'no-else-return': 'warn',
     'no-param-reassign': 'off', // <<======= Not needed because we need to modify the function parameter =======>>
     'no-underscore-dangle': 'off', // <<======= Not needed because we used. =======>>
     'no-restricted-syntax': 'off', // <<======= Not needed. =======>>
-    'no-use-before-define': ['error', { functions: true, variables: true }],
+    // 'no-use-before-define': ['error', { functions: true, variables: true }],
     'camelcase': 'warn',
     'prefer-const': 'warn',
     'no-restricted-globals': 'off',
     'no-await-in-loop': 'error',
-    'no-extra-parens': 'error',
+    'no-extra-parens': 'off',
     'prefer-template': 'error',
-    'no-extra-semi': 'error',
+    'no-extra-semi': 'off',
     'array-callback-return': "off", // <<======= Not needed. =======>>
     'no-constant-condition': 'error',
     'no-throw-literal': 'off', // <<======= Not needed. =======>>

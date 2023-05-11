@@ -16,7 +16,6 @@ export class PermissionRepository {
   }
 
   async allPermission(): Promise<string[]> {
-    const getAllPermissionCode = this.permissionRepository.find();
-    return (await getAllPermissionCode).map((s) => s.pId);
+    return (await this.permissionRepository.find()).map((s) => s.pId);
   }
 }

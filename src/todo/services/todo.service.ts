@@ -10,7 +10,7 @@ import { PaginationDto } from '../dto/todo-pagination.dto';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { TodoDisplayModel } from '../dto/todo-display-model';
-
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class TodoService {
   constructor(
@@ -33,13 +33,8 @@ export class TodoService {
     });
     const user = await this.userService.findUserById(userId);
     if (!category) return false;
-    const todo = new Todo();
-    todo.title = title;
-    todo.tags = tags;
-    todo.date = new Date().toLocaleString();
-    todo.completed = false;
-    todo.category = category;
-    todo.user = user;
+    const date = new Date().toLocaleString();
+    const todo = new Todo(uuid(), title, tags, category, date, false, user);
     this.loggerService.log(`Todo created`);
     const createTodo = await this.todoRepository.save(todo);
     const mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);

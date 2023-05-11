@@ -19,7 +19,10 @@ export class UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.address', 'address')
+      .getMany();
   }
 
   async findUserByEmail(email: string): Promise<User> {
@@ -27,7 +30,11 @@ export class UserRepository {
   }
 
   async findUserById(id: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { id: id } });
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.address', 'address')
+      .where('user.id = :id', { id })
+      .getOne();
   }
 
   async removeUser(id: string): Promise<any> {

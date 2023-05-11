@@ -41,20 +41,24 @@ export class UserService {
       throw new ConflictException('Email is already in use.');
     }
     const hashedPassword = await hash(password, 10);
-    const newUser = new User();
-    newUser.firstName = firstName;
-    newUser.lastName = lastName;
-    newUser.email = email;
-    newUser.address = new Address(
+    const permissions = await this.permissionService.setUserPermission();
+    const newAddress = new Address(
       uuid(),
       address.street,
       address.city,
       address.state,
       address.zipcode,
     );
-    newUser.password = hashedPassword;
-    newUser.role = Constants.ROLES.USER_ROLE;
-    newUser.permissions = await this.permissionService.setUserPermission();
+    const newUser = new User(
+      uuid(),
+      firstName,
+      lastName,
+      email,
+      hashedPassword,
+      newAddress,
+      Constants.ROLES.USER_ROLE,
+      permissions,
+    );
 
     const mappedUser = await this.userRepository.createUser(newUser);
     const user = this.mapper.map(mappedUser, User, UserDisplayModel);
