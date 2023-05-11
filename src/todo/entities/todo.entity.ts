@@ -38,4 +38,23 @@ export class Todo extends BaseEntity {
   @ManyToOne(() => User, (user) => user.todos, { onDelete: 'CASCADE' })
   @AutoMap()
   user: User;
+
+  constructor(
+    id: string,
+    title: string,
+    tags: string[],
+    category: Category,
+    date: string,
+    completed: boolean,
+    user: User,
+  ) {
+    super();
+    this.id = id;
+    this.title = title;
+    this.tags = tags;
+    this.category = category;
+    this.date = date;
+    this.completed = completed;
+    this.user = user;
+  }
 }

@@ -27,4 +27,17 @@ export class Category extends BaseEntity {
 
   @OneToMany(() => Todo, (todo) => todo.category)
   todos: Todo[];
+
+  constructor(
+    id: string,
+    categoryTitle: string,
+    categoryName: string,
+    todos: Todo[],
+  ) {
+    super();
+    this.id = id;
+    this.categoryTitle = categoryTitle;
+    this.categoryName = categoryName;
+    this.todos = todos;
+  }
 }

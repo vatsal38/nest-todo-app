@@ -58,4 +58,25 @@ export class User extends BaseEntity {
   @OneToMany(() => Todo, (todo) => todo.user)
   @AutoMap()
   todos: Todo[];
+
+  constructor(
+    id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    address: Address,
+    role: string,
+    permissions: string[],
+  ) {
+    super();
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.address = address;
+    this.role = role;
+    this.permissions = permissions;
+  }
 }
