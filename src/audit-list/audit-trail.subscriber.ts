@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { User } from './../../user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import {
   Connection,
   EntitySubscriberInterface,
@@ -9,7 +9,7 @@ import {
   RemoveEvent,
 } from 'typeorm';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { AuditTrail } from './audit-trail.entity';
+import { AuditTrail } from './entities/audit-trail.entity';
 import { Repository } from 'typeorm';
 
 @EventSubscriber()

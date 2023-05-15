@@ -5,12 +5,12 @@ export class PaginationDto {
   @IsOptional()
   @IsNumber()
   @Min(0)
-  @ApiPropertyOptional({ default: 0 })
-  page?: number;
+  @ApiPropertyOptional()
+  skip?: number;
 
   @IsOptional()
   @IsNumber()
   @Min(1)
-  @ApiPropertyOptional({ default: 10 })
-  perPage?: number;
+  @ApiPropertyOptional()
+  take?: number;
 }

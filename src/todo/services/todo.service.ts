@@ -1,4 +1,4 @@
-import { AuditTrail } from './../../audit-trail/entities/audit-trail.entity';
+import { AuditTrail } from './../../audit-list/entities/audit-trail.entity';
 import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';
@@ -56,8 +56,8 @@ export class TodoService {
     totalPages: number;
   }> {
     this.loggerService.log(`Get the list not-completed todo`);
-    const { page, perPage } = paginationDto;
-    const skippedItems = (page - 1) * perPage;
+    const { skip, take } = paginationDto;
+    const skippedItems = (skip - 1) * take;
     const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
       .leftJoinAndSelect('todo.user', 'user')
@@ -72,15 +72,15 @@ export class TodoService {
       ])
       .andWhere('todo.completed = :completed', { completed: false })
       .skip(skippedItems)
-      .take(perPage)
+      .take(take)
       .getManyAndCount();
 
     return {
       items: todos,
       totalItems: count,
-      currentPage: page,
-      perPage: perPage,
-      totalPages: Math.ceil(count / perPage),
+      currentPage: skip,
+      perPage: take,
+      totalPages: Math.ceil(count / take),
     };
   }
 
@@ -95,8 +95,8 @@ export class TodoService {
     totalPages: number;
   }> {
     this.loggerService.log(`Get the list of completed todo`);
-    const { page, perPage } = paginationDto;
-    const skippedItems = (page - 1) * perPage;
+    const { skip, take } = paginationDto;
+    const skippedItems = (skip - 1) * take;
     const [todos, count] = await this.todoRepository
       .createQueryBuilder('todo')
       .leftJoinAndSelect('todo.user', 'user')
@@ -111,15 +111,15 @@ export class TodoService {
       .where('todo.user.id = :userId', { userId })
       .andWhere('todo.completed = :completed', { completed: true })
       .skip(skippedItems)
-      .take(perPage)
+      .take(take)
       .getManyAndCount();
 
     return {
       items: todos,
       totalItems: count,
-      currentPage: page,
-      perPage: perPage,
-      totalPages: Math.ceil(count / perPage),
+      currentPage: skip,
+      perPage: take,
+      totalPages: Math.ceil(count / take),
     };
   }
 

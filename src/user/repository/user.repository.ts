@@ -1,4 +1,4 @@
-import { AuditTrail } from './../../audit-trail/entities/audit-trail.entity';
+import { AuditTrail } from './../../audit-list/entities/audit-trail.entity';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';

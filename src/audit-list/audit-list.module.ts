@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { PermissionsGuard } from './../auth/guard/permission.guard';
 import { UserModule } from './../user/user.module';
-import { AuditTrail } from './../audit-trail/entities/audit-trail.entity';
+import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuditController } from './audit-list.controller';

@@ -1,4 +1,4 @@
-import { AuditTrail } from './../audit-trail/entities/audit-trail.entity';
+import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
 import { PermissionsGuard } from '../auth/guard/permission.guard';
 import { LoggerService } from '../utils/logger/logger.service';
 import { UserModule } from './../user/user.module';

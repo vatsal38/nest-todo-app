@@ -1,4 +1,4 @@
-import { AuditTrail } from './../audit-trail/entities/audit-trail.entity';
+import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
 import { PermissionService } from '../permission/services/permission.service';
 import { UserSeed } from './seed-data/user.seed';
 import { PermissionRepository } from '../permission/repository/permission.repository';
