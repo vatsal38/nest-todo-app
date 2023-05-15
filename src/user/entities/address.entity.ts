@@ -39,6 +39,7 @@ export class Address extends BaseEntity {
     city: string,
     state: string,
     zipcode: number,
+    user: User,
   ) {
     super();
     this.id = id;
@@ -46,5 +47,6 @@ export class Address extends BaseEntity {
     this.city = city;
     this.state = state;
     this.zipcode = zipcode;
+    this.user = user;
   }
 }

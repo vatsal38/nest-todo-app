@@ -49,7 +49,7 @@ module.exports = {
     'no-shadow': 'error',
     'object-curly-spacing': 'off',  // <<======= Not needed because prettier provides =======>>
     'no-undef': 'error',
-    'no-unused-expressions': 'error',
+    // 'no-unused-expressions': 'error',
     'no-var': 'error',
     // 'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'arrow-parens': ['error', 'always'],

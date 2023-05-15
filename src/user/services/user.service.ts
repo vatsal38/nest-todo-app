@@ -48,16 +48,20 @@ export class UserService {
       address.city,
       address.state,
       address.zipcode,
+      null,
     );
     const newUser = new User(
       uuid(),
       firstName,
       lastName,
       email,
-      hashedPassword,
       newAddress,
+      hashedPassword,
+      null,
+      null,
       Constants.ROLES.USER_ROLE,
       permissions,
+      null,
     );
 
     const mappedUser = await this.userRepository.createUser(newUser);
@@ -76,12 +80,14 @@ export class UserService {
     return await this.userRepository.findUserById(id);
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<User | any> {
     this.loggerService.log(`Get user by email : ${email}`);
     return await this.userRepository.findUserByEmail(email);
   }
 
-  async findByResetPasswordToken(resetPasswordToken: string): Promise<User> {
+  async findByResetPasswordToken(
+    resetPasswordToken: string,
+  ): Promise<User | any> {
     this.loggerService.log(`Get reset password token`);
     return await this.userRepository.findToken(resetPasswordToken);
   }

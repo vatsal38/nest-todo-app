@@ -10,7 +10,19 @@ describe('TodoEntity', () => {
 
   beforeEach(() => {
     category = new Category('1', 'Category Title', 'Category Name', null);
-    user = new User('1', null, null, null, null, null, null, null);
+    user = new User(
+      '1',
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+    );
 
     todo = new Todo(
       '1',

@@ -59,24 +59,33 @@ export class User extends BaseEntity {
   @AutoMap()
   todos: Todo[];
 
+  @Column({ nullable: true })
+  updatedAt: Date;
+
   constructor(
     id: string,
     firstName: string,
     lastName: string,
     email: string,
-    password: string,
     address: Address,
+    password: string,
+    resetPasswordToken: string,
+    resetPasswordExpires: Date,
     role: string,
     permissions: string[],
+    todos: Todo[],
   ) {
     super();
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.password = password;
     this.address = address;
+    this.password = password;
+    this.resetPasswordToken = resetPasswordToken;
+    this.resetPasswordExpires = resetPasswordExpires;
     this.role = role;
     this.permissions = permissions;
+    this.todos = todos;
   }
 }

@@ -1,3 +1,4 @@
+import { AuditTrail } from './../../audit-trail/entities/audit-trail.entity';
 import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';
@@ -19,6 +20,8 @@ export class TodoService {
     private readonly categoryRepository: Repository<Category>,
     private userService: UserService,
     private readonly loggerService: LoggerService,
+    @InjectRepository(AuditTrail)
+    private readonly auditTrailRepository: Repository<AuditTrail>,
     @InjectMapper()
     private mapper: Mapper,
   ) {}
@@ -38,6 +41,7 @@ export class TodoService {
     this.loggerService.log(`Todo created`);
     const createTodo = await this.todoRepository.save(todo);
     const mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
+    await this.createAuditTrail(createTodo.id, 'Todo Created', 'todo');
     return mappedTodo;
   }
 
@@ -121,11 +125,37 @@ export class TodoService {
 
   async update(todoId: string): Promise<any> {
     this.loggerService.log(`Update todo ${todoId}`);
-    return await this.todoRepository.update(todoId, { completed: true });
+    const todo = await this.todoRepository.findOne({
+      where: { id: todoId },
+    });
+    if (!todo) return false;
+    todo.completed = true;
+    await this.todoRepository.save(todo);
+    await this.createAuditTrail(todo.id, 'Todo Updated', 'todo');
+    return true;
   }
 
   async remove(todoId: string): Promise<any> {
     this.loggerService.log(`Delete todo ${todoId}`);
-    return await this.todoRepository.delete(todoId);
+    const todo = await this.todoRepository.findOne({
+      where: { id: todoId },
+    });
+    if (!todo) return false;
+    await this.createAuditTrail(todo.id, 'Todo Deleted', 'todo');
+    await this.todoRepository.remove(todo);
+    return true;
+  }
+
+  private async createAuditTrail(
+    entityId: string,
+    action: string,
+    entityName: string,
+  ): Promise<void> {
+    const auditTrail = new AuditTrail();
+    auditTrail.entityId = entityId;
+    auditTrail.action = action;
+    auditTrail.entityName = entityName;
+
+    await this.auditTrailRepository.save(auditTrail);
   }
 }

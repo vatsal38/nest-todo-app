@@ -11,16 +11,26 @@ describe('UserEntity', () => {
   let category: Category;
 
   beforeEach(() => {
-    address = new Address('addressId', '123 Street', 'City', 'State', 12345);
+    address = new Address(
+      'addressId',
+      '123 Street',
+      'City',
+      'State',
+      12345,
+      null,
+    );
     user = new User(
       '1',
       'vatsal',
       'mavani',
       'vatsal@gmail.com',
-      'vatsal',
       address,
+      'vatsal',
+      null,
+      null,
       'user',
       ['read', 'write'],
+      null,
     );
     address.user = user;
 

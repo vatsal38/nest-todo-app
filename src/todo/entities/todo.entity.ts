@@ -39,6 +39,9 @@ export class Todo extends BaseEntity {
   @AutoMap()
   user: User;
 
+  @Column({ nullable: true })
+  updatedAt: string;
+
   constructor(
     id: string,
     title: string,

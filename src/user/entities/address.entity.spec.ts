@@ -5,7 +5,14 @@ describe('AddressEntity', () => {
   let address: Address;
 
   beforeEach(() => {
-    address = new Address('addressId', '123 Street', 'City', 'State', 12345);
+    address = new Address(
+      'addressId',
+      '123 Street',
+      'City',
+      'State',
+      12345,
+      null,
+    );
   });
   it('should create an address entity', () => {
     expect(address).toBeInstanceOf(Address);

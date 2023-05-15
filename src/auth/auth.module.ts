@@ -35,5 +35,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     PermissionsGuard,
     LoggerService,
   ],
+  exports: [AuthService],
 })
 export class AuthModule {}

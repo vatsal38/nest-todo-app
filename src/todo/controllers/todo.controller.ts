@@ -78,13 +78,13 @@ export class TodoController {
   @Patch(':todoId')
   @Permissions('u-read', 'u-write')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  async update(@Param('todoId') id: string): Promise<void> {
+  async update(@Param('todoId') id: string): Promise<any> {
     return await this.todoService.update(id);
   }
 
   @Delete(':todoId')
   @Permissions('u-read', 'u-write')
-  async remove(@Param('todoId') id: string): Promise<void> {
+  async remove(@Param('todoId') id: string): Promise<any> {
     return await this.todoService.remove(id);
   }
 }
