@@ -38,10 +38,10 @@ export class TodoService {
     if (!category) return false;
     const date = new Date().toLocaleString();
     const todo = new Todo(uuid(), title, tags, category, date, false, user);
-    this.loggerService.log(`Todo created`);
     const createTodo = await this.todoRepository.save(todo);
     const mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
     await this.createAuditTrail(createTodo.id, 'Todo Created', 'todo');
+    this.loggerService.log(`Todo created`);
     return mappedTodo;
   }
 
@@ -55,7 +55,6 @@ export class TodoService {
     perPage: number;
     totalPages: number;
   }> {
-    this.loggerService.log(`Get the list not-completed todo`);
     const { skip, take } = paginationDto;
     const skippedItems = (skip - 1) * take;
     const [todos, count] = await this.todoRepository
@@ -75,6 +74,7 @@ export class TodoService {
       .take(take)
       .getManyAndCount();
 
+    this.loggerService.log(`Get the list not-completed todo`);
     return {
       items: todos,
       totalItems: count,
@@ -94,7 +94,6 @@ export class TodoService {
     perPage: number;
     totalPages: number;
   }> {
-    this.loggerService.log(`Get the list of completed todo`);
     const { skip, take } = paginationDto;
     const skippedItems = (skip - 1) * take;
     const [todos, count] = await this.todoRepository
@@ -114,6 +113,7 @@ export class TodoService {
       .take(take)
       .getManyAndCount();
 
+    this.loggerService.log(`Get the list of completed todo`);
     return {
       items: todos,
       totalItems: count,
@@ -124,7 +124,6 @@ export class TodoService {
   }
 
   async update(todoId: string): Promise<any> {
-    this.loggerService.log(`Update todo ${todoId}`);
     const todo = await this.todoRepository.findOne({
       where: { id: todoId },
     });
@@ -132,17 +131,18 @@ export class TodoService {
     todo.completed = true;
     await this.todoRepository.save(todo);
     await this.createAuditTrail(todo.id, 'Todo Updated', 'todo');
+    this.loggerService.log(`Update todo ${todoId}`);
     return true;
   }
 
   async remove(todoId: string): Promise<any> {
-    this.loggerService.log(`Delete todo ${todoId}`);
     const todo = await this.todoRepository.findOne({
       where: { id: todoId },
     });
     if (!todo) return false;
     await this.createAuditTrail(todo.id, 'Todo Deleted', 'todo');
     await this.todoRepository.remove(todo);
+    this.loggerService.log(`Delete todo ${todoId}`);
     return true;
   }
 

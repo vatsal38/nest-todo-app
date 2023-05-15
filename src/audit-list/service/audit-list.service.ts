@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { LoggerService } from './../../utils/logger/logger.service';
 import { PaginationDto } from '../../todo/dto/todo-pagination.dto';
 import { Repository } from 'typeorm';
 import { AuditTrail } from '../entities/audit-trail.entity';
@@ -12,6 +13,7 @@ export class AuditService {
   constructor(
     @InjectRepository(AuditTrail)
     private readonly auditRepository: Repository<AuditTrail>,
+    private readonly loggerService: LoggerService,
   ) {}
 
   async findAll(
@@ -48,7 +50,7 @@ export class AuditService {
       .skip(skippedItems)
       .take(take)
       .getManyAndCount();
-
+    this.loggerService.log(`All audit listed`);
     return {
       items: auditList,
       totalItems: count,
