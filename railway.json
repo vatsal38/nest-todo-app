@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "environments": {
+        "default": "1a433cc7-ae0f-49e6-949b-117a30ea93bc"
+    },
+    "projects": {
+        "1a433cc7-ae0f-49e6-949b-117a30ea93bc": {
+            "name": "Todo Nest App",
+            "variables": {
+                "DATABASE_URL": {
+                    "from": "secrets"
+                },
+                "NODE_ENV": "production"
+            },
+            "plugins": [
+                "railway/postgresql",
+                "railway/node",
+                "railway/typescript"
+            ]
+        }
+    }
+}
