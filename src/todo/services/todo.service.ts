@@ -1,4 +1,4 @@
-import { AuditTrail } from './../../audit-list/entities/audit-trail.entity';
+// import { AuditTrail } from './../../audit-list/entities/audit-trail.entity';
 import { Todo } from './../entities/todo.entity';
 import { Category } from '../entities/category.entity';
 import { UserService } from '../../user/services/user.service';
@@ -20,8 +20,8 @@ export class TodoService {
     private readonly categoryRepository: Repository<Category>,
     private userService: UserService,
     private readonly loggerService: LoggerService,
-    @InjectRepository(AuditTrail)
-    private readonly auditTrailRepository: Repository<AuditTrail>,
+    // @InjectRepository(AuditTrail)
+    // private readonly auditTrailRepository: Repository<AuditTrail>,
     @InjectMapper()
     private mapper: Mapper,
   ) {}
@@ -40,7 +40,7 @@ export class TodoService {
     const todo = new Todo(uuid(), title, tags, category, date, false, user);
     const createTodo = await this.todoRepository.save(todo);
     const mappedTodo = this.mapper.map(createTodo, Todo, TodoDisplayModel);
-    await this.createAuditTrail(createTodo.id, 'Todo Created', 'todo');
+    // await this.createAuditTrail(createTodo.id, 'Todo Created', 'todo');
     this.loggerService.log(`Todo created`);
     return mappedTodo;
   }
@@ -130,7 +130,7 @@ export class TodoService {
     if (!todo) return false;
     todo.completed = true;
     await this.todoRepository.save(todo);
-    await this.createAuditTrail(todo.id, 'Todo Updated', 'todo');
+    // await this.createAuditTrail(todo.id, 'Todo Updated', 'todo');
     this.loggerService.log(`Update todo ${todoId}`);
     return true;
   }
@@ -140,22 +140,22 @@ export class TodoService {
       where: { id: todoId },
     });
     if (!todo) return false;
-    await this.createAuditTrail(todo.id, 'Todo Deleted', 'todo');
+    // await this.createAuditTrail(todo.id, 'Todo Deleted', 'todo');
     await this.todoRepository.remove(todo);
     this.loggerService.log(`Delete todo ${todoId}`);
     return true;
   }
 
-  private async createAuditTrail(
-    entityId: string,
-    action: string,
-    entityName: string,
-  ): Promise<void> {
-    const auditTrail = new AuditTrail();
-    auditTrail.entityId = entityId;
-    auditTrail.action = action;
-    auditTrail.entityName = entityName;
+  // private async createAuditTrail(
+  //   entityId: string,
+  //   action: string,
+  //   entityName: string,
+  // ): Promise<void> {
+  //   const auditTrail = new AuditTrail();
+  //   auditTrail.entityId = entityId;
+  //   auditTrail.action = action;
+  //   auditTrail.entityName = entityName;
 
-    await this.auditTrailRepository.save(auditTrail);
-  }
+  //   await this.auditTrailRepository.save(auditTrail);
+  // }
 }

@@ -1,4 +1,4 @@
-import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
+// import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
 import { PermissionService } from '../permission/services/permission.service';
 import { UserSeed } from './seed-data/user.seed';
 import { PermissionRepository } from '../permission/repository/permission.repository';
@@ -13,7 +13,7 @@ import { UserRepository } from './repository/user.repository';
 import { UserMapper } from './mapper/user-mapper';
 import { Address } from './entities/address.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Permission, Address, AuditTrail])],
+  imports: [TypeOrmModule.forFeature([User, Permission, Address])],
   controllers: [UserController],
   providers: [
     UserService,

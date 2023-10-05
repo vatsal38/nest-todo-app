@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
-import { AuditModule } from './audit-list/audit-list.module';
+// import { AuditModule } from './audit-list/audit-list.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { AuditModule } from './audit-list/audit-list.module';
     UserModule,
     TodoModule,
     AuthModule,
-    AuditModule,
+    // AuditModule,
   ],
   controllers: [],
   providers: [],

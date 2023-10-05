@@ -1,4 +1,4 @@
-import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
+// import { AuditTrail } from './../audit-list/entities/audit-trail.entity';
 import { PermissionsGuard } from '../auth/guard/permission.guard';
 import { LoggerService } from '../utils/logger/logger.service';
 import { UserModule } from './../user/user.module';
@@ -11,7 +11,7 @@ import { Category } from './entities/category.entity';
 import { ToDoMapper } from './mapper/todo-mapper';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Todo, Category, AuditTrail]), UserModule],
+  imports: [TypeOrmModule.forFeature([Todo, Category]), UserModule],
   controllers: [TodoController],
   providers: [TodoService, LoggerService, PermissionsGuard, ToDoMapper],
   exports: [TodoService],
